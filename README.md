@@ -1,7 +1,41 @@
-- 👋 Hi, I’m @irAbs174
-- 👀 I’m interested in PYTHON and Linux :) ...
-- 🌱 Use Free and open source OS and programs. ...
-- 💞️ |<4l1 l1/\/0x Lover :)
+<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer(Student)</h2>
+<div>
+  <Label> 💞️ programming languages :</Label></br>
+  <div>
+  <table>
+  <tr>
+    <th>Lanquage</th>
+    <th>mastery</th>
+    <th>Framework</th>
+    <th>DataBase</ht>
+  </tr>
+  <tr>
+    <td>Python</td>
+    <td>70%</td>
+    <td>Django</td>
+    <td>MariaDB</td>
+  </tr>
+  <tr>
+    <td>C#</td>
+    <td>65%</td>
+    <td>Dotnet</td>
+    <td>mysql</td>
+    </tr>
+    <tr>
+      <td>Java</td>
+      <td>60%</td>
+      <td>Bootstrap</td>
+      <td>MongoDB</td>
+    </tr>
+        <tr>
+      <td>javascripts</td>
+      <td>68%</td>
+          <td>React</td>
+          <td>SQLite3</td>
+    </tr>
+</table>
+</div>
+</div>
 - 📫 dev@vs-web.com ...
 
 <!---
