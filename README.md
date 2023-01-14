@@ -1,4 +1,4 @@
-<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer(Student)</h2>
+<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2>
 <div>
   <Label> 💞️ programming languages :</Label></br>
   <div>
@@ -36,8 +36,8 @@
 </table>
 </div>
 </div>
-- 📫 dev@vs-web.com ...
-
+- 📫 damerchiloa@gmail.com ...
+🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱
 <!---
 irAbs174/irAbs174 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
