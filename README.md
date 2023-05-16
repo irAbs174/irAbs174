@@ -1,7 +1,7 @@
 # 💫 About Me:
 <h1>IM #ABS</h1><hr>
 <h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2>🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱
-## 🌐 Socials:
+# 🌐 Socials:
 📫 damerchiloa@gmail.com
   [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/damerchiloa) 
 
