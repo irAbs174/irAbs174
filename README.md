@@ -1,7 +1,7 @@
 # 💫 About Me:
-<h1>IM #ABS</h1><br>
-<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2><br>
-🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱<hr>
+<h1>IM #ABS</h1>
+<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2>
+🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱
 ## 🌐 Socials:
 [![Behance](https://img.shields.io/badge/Behance-1769ff?logo=behance&logoColor=white)](https://behance.net/174 Team) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/damerchiloa)  
 
