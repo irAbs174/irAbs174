@@ -1,7 +1,6 @@
 # 💫 About Me:
-<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2><br><div><br>  <Label> <br>🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱<br><!---<br>irAbs174/irAbs174 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.<br>You can click the Preview link to take a look at your changes.<br>---><br>
-
-
+<h1>IM #ABS</h1><hr>
+<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2>🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱
 ## 🌐 Socials:
 📫 damerchiloa@gmail.com
   [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/damerchiloa) 
