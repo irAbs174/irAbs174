@@ -1,5 +1,5 @@
-# 💫 <h1>IM #ABS</h1>:
-<h2>👋 Hi welcome to my profile ! Im a linux🌱 user and programmer.{System And Web(Client/Server)}</h2>
+# 💫 IM #ABS:
+👋 Hello & welcome to my GitHub ! Im a 🌱linux user🌱 and 🧑‍programmer
 
 ## 🌐 Socials:
 📫 Email : damerchiloa@gmail.com <br>
