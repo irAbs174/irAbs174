@@ -1,4 +1,4 @@
-# 💫 IM #ABS:
+# 💫🐐 IM #ABS:
 👋 Hello & welcome to my GitHub ! Im a 🌱linux user🌱 and 🧑‍programmer
 
 ## 🌐 Socials:
