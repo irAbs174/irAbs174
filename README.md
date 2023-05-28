@@ -1,6 +1,6 @@
-# 🐐 Im #ABS:
+# 🐐🧑 Im #ABS:
 👋 Hello and welcome to my GitHub.<br>
-💼 I am a freelance web developer and designer,🧑 and have been working in this field since 2015.<br>
+💼 I am a freelance programmer & web developer 💻 & I have been working in this field since 2015.<br>
 🔐 I am passionate about networking and security, 🌐 with a specialization in Backend development.<br>
 🏙️ City: Tehran.<br>
 🌱linux for ever🌱
