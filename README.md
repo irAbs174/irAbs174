@@ -1,9 +1,9 @@
-# 🐐🧑 Im #ABS:
+# 🧑 Im #ABS:
+🐐 linux for ever🌱
 👋 Hello and welcome to my GitHub.<br>
 💼 I am a freelancer programmer & web developer 💻 & I have been working in this field since 2015.<br>
 🔐 I am passionate about networking and security, 🌐 with a specialization in Backend development.<br>
 🏙️ City: Tehran.<br>
-🌱linux for ever🌱
 
 ## 🌐 Socials:
 📫 Email : damerchiloa@gmail.com <br>
