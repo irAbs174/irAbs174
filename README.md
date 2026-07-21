@@ -1,8 +1,7 @@
 # Abbas Damerchi
 
-Full Stack Engineer with 6+ years building distributed systems, automated e-
-commerce platforms, and FinTech products. Combines deep backend architecture with
-hands-on UI/UX craft, SEO optimization, and end-to-end workflow automation
+building distributed systems, automated e-commerce platforms and FinTech products.
+Combines deep backend architecture with hands-on UI/UX craft, SEO optimization and end-to-end workflow automation.
 
 ## 🔗 Links
 [![YouTube](https://img.shields.io/badge/youtube-ff1709?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@Unique_Sources)
