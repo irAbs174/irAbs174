@@ -1,6 +1,6 @@
 # Abbas Damerchi
 
-Stack Engineer with 5+ years building distributed systems, automated e-
+Full Stack Engineer with 6+ years building distributed systems, automated e-
 commerce platforms, and FinTech products. Combines deep backend architecture with
 hands-on UI/UX craft, SEO optimization, and end-to-end workflow automation
 
