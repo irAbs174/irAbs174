@@ -1,10 +1,10 @@
 # Abbas Damerchi
 
 ## 🔗 Links
+[![YouTube](https://img.shields.io/badge/youtube-ff1709?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@Unique_Sources)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abbas-damerchi)
 [![telegram](https://img.shields.io/badge/telegram-0A66C2?style=for-the-badge&logo=telegram&logoColor=white)](https://www.t.me/unique_sources)
 
-![Logo](https://s6.picofile.com/file/8239849876/174Team_Logo_En_Text_.png)
 
 # 🛠️ Frameworks:
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)
