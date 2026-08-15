@@ -6,4 +6,5 @@ Combines deep backend architecture with hands-on UI/UX craft, SEO optimization a
 ## 🔗 Links
 [![YouTube Channel](https://img.shields.io/badge/youtube-ff0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@Unique_Sources)
 [![LinkedIn](https://img.shields.io/badge/linkedin-0a66c2?style=for-the-badge&logo=linkedin&logoColor=black)](https://www.linkedin.com/in/abbas-damerchi)
+[![facebook](https://img.shields.io/badge/facebook-3b5998?style=for-the-badge&logo=x&logoColor=white)](https://www.facebook.com/abbasDamerchilo/)
 [![x](https://img.shields.io/badge/x-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/abbasdamerchi)
