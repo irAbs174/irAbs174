@@ -1,6 +1,6 @@
 # Abbas Damerchi
 
-building distributed systems, automated e-commerce platforms and FinTech products.
+Building distributed systems, automated e-commerce platforms and FinTech products.
 Combines deep backend architecture with hands-on UI/UX craft, SEO optimization and end-to-end workflow automation.
 
 ## 🔗 Socials links
