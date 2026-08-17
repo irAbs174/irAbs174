@@ -6,17 +6,6 @@ I build **reliable, automated systems that turn complex workflows into simple pr
 
 My work sits at the intersection of **backend architecture, automation, product UX, and technical content** — from distributed systems and financial technology to automated commerce platforms and SEO-driven products.
 
-<p align="center">
-  <a href="https://github.com/irAbs174">
-    <img src="https://img.shields.io/badge/GitHub-irAbs174-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-  <a href="https://linkedin.com/in/abbas-damerchi">
-    <img src="https://img.shields.io/badge/LinkedIn-Abbas%20Damerchi-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-  </a>
-  <a href="https://youtube.com/@Unique_Sources">
-    <img src="https://img.shields.io/badge/YouTube-Unique_Sources-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
-  </a>
-</p>
 
 ---
 
@@ -90,21 +79,6 @@ Expect to find:
 * 🧪 Technical experiments and prototypes
 * 📚 Tutorials and implementation notes
 * 🎨 Product and UX experiments
-
----
-
-## GitHub
-
-<p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=irAbs174&show_icons=true&hide_border=true&rank_icon=github" alt="Abbas Damerchi's GitHub statistics">
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=irAbs174&layout=compact&hide_border=true" alt="Abbas Damerchi's most used languages">
-</p>
-
-<p align="center">
-  <a href="https://github.com/irAbs174?tab=repositories">
-    <img src="https://img.shields.io/badge/Explore%20my%20repositories-181717?style=for-the-badge&logo=github&logoColor=white" alt="Explore repositories">
-  </a>
-</p>
 
 ---
 
