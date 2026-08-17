@@ -1,0 +1,23 @@
+title: Abbas Damerchi
+description: Distributed Systems Engineer | FinTech | E-Commerce Automation | Product Engineering
+url: "https://irabs174.github.io"
+author: Abbas Damerchi
+twitter: abbasdamerchilo
+
+# GitHub Pages
+remote_theme: null
+markdown: kramdown
+
+# Build settings
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude files
+exclude:
+  - .gitignore
+  - README.md
+  - CHANGELOG.md
+  - .jekyll-cache
+  - .sass-cache
