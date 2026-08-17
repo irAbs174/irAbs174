@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abbas Damerchi - Engineering Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0969da;
+            --primary-light: #54aeff;
+            --secondary: #1f6feb;
+            --accent: #238636;
+            --danger: #da3633;
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary-light);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-light);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(9, 105, 218, 0.1) 0%, rgba(36, 134, 54, 0.1) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            animation: slideInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--text-primary);
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideInUp 0.8s ease-out 0.3s both;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(9, 105, 218, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(9, 105, 218, 0.1);
+            transform: translateY(-2px);
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-light);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        /* What I Build */
+        .build-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .build-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .build-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .build-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .build-card:hover {
+            border-color: var(--primary-light);
+            background: var(--bg-tertiary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(9, 105, 218, 0.2);
+        }
+
+        .build-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-light);
+        }
+
+        .build-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .build-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Philosophy */
+        .philosophy {
+            background: linear-gradient(135deg, rgba(9, 105, 218, 0.05) 0%, rgba(36, 134, 54, 0.05) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .philosophy-quote {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .philosophy ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .philosophy li {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .philosophy li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* Skills & Focus */
+        .focus-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            background: var(--bg-tertiary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            animation: fillBar 1s ease-out;
+        }
+
+        @keyframes fillBar {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fill);
+            }
+        }
+
+        .focus-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+        }
+
+        .focus-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* What You'll Find */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-tag {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .project-tag:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--primary-light);
+            transform: scale(1.05);
+        }
+
+        .project-tag .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tag p {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Beyond Code */
+        .beyond-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .beyond-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .beyond-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-5px);
+        }
+
+        .beyond-card h3 {
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .beyond-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Connect Section */
+        .connect-section {
+            text-align: center;
+        }
+
+        .social-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            border-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(9, 105, 218, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            margin-bottom: 1rem;
+        }
+
+        .footer-content p {
+            font-style: italic;
+            color: var(--primary-light);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+            background: var(--bg-tertiary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-light);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .focus-container {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .social-links {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+
+        /* Scroll Progress */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0;
+            z-index: 200;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">❱❱ Abbas</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#build">Build</a></li>
+                <li><a href="#philosophy">Philosophy</a></li>
+                <li><a href="#focus">Focus</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#connect">Connect</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+        <div class="container">
+            <h1>Abbas Damerchi</h1>
+            <p class="subtitle">🏗️ Distributed Systems · 💳 FinTech · 🤖 E-Commerce Automation · 🎯 Product Engineering</p>
+            <p class="description">I build <strong>reliable, automated systems that turn complex workflows into simple products</strong>. My work sits at the intersection of backend architecture, automation, product UX, and technical content.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">Explore My Work</a>
+                <a href="#connect" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I Build -->
+    <section id="build">
+        <div class="container">
+            <h2>What I Build</h2>
+            <div class="build-grid">
+                <div class="build-card">
+                    <div class="icon">⚙️</div>
+                    <h3>Distributed Systems</h3>
+                    <p>Designing backend architectures that are <strong>reliable, scalable, observable, and automation-friendly</strong>.</p>
+                </div>
+                <div class="build-card">
+                    <div class="icon">💳</div>
+                    <h3>FinTech</h3>
+                    <p>Building technology around <strong>financial workflows, transaction-oriented systems, and automation</strong>.</p>
+                </div>
+                <div class="build-card">
+                    <div class="icon">🛒</div>
+                    <h3>Automated E-Commerce</h3>
+                    <p>Turning repetitive commerce operations into <strong>end-to-end automated workflows</strong>.</p>
+                </div>
+                <div class="build-card">
+                    <div class="icon">🎨</div>
+                    <h3>Product & UX</h3>
+                    <p>I don't stop at the backend. I care about <strong>interfaces, usability, accessibility, and product experience</strong>.</p>
+                </div>
+                <div class="build-card">
+                    <div class="icon">🔎</div>
+                    <h3>SEO & Content Systems</h3>
+                    <p>Building products and workflows designed to be <strong>discoverable, useful, and maintainable at scale</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Engineering Philosophy -->
+    <section id="philosophy">
+        <div class="container">
+            <h2>Engineering Philosophy</h2>
+            <div class="philosophy">
+                <div class="philosophy-quote">"Build systems that are reliable underneath and effortless on top."</div>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">I care about more than making software work. Here's what matters to me:</p>
+                <ul>
+                    <li><strong>Architecture</strong> — clear boundaries and systems that can evolve</li>
+                    <li><strong>Automation</strong> — eliminate repetitive work wherever possible</li>
+                    <li><strong>Reliability</strong> — predictable behavior under real-world conditions</li>
+                    <li><strong>Performance</strong> — efficient systems without unnecessary complexity</li>
+                    <li><strong>UX</strong> — powerful software should still feel simple</li>
+                    <li><strong>SEO</strong> — products should be discoverable, not just functional</li>
+                    <li><strong>Maintainability</strong> — today's clever solution shouldn't become tomorrow's problem</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Focus -->
+    <section id="focus">
+        <div class="container">
+            <h2>Current Focus & Expertise</h2>
+            <div class="focus-container">
+                <div class="skills">
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Distributed Systems</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Backend Architecture</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Workflow Automation</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>FinTech</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>E-Commerce Systems</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Product / UX</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>SEO / Content Systems</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--fill: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="focus-text">
+                    <h3>Expertise Landscape</h3>
+                    <p>My skill distribution reflects years of hands-on experience building <strong>production systems at scale</strong>.</p>
+                    <p>I've focused deeply on distributed systems and backend architecture as the foundation, then expanded into specialized domains like FinTech and E-Commerce automation.</p>
+                    <p>My recent growth in Product/UX and SEO reflects my belief that great engineering must be paired with great user experience and discoverability.</p>
+                    <p style="color: var(--accent); font-weight: 600; margin-top: 1.5rem;">💡 Always learning. Always building.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You'll Find Here -->
+    <section id="projects">
+        <div class="container">
+            <h2>What You'll Find Here</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">My GitHub is where I experiment, build, document, and publish.</p>
+            <div class="projects-grid">
+                <div class="project-tag">
+                    <div class="emoji">🧩</div>
+                    <p>Backend & Distributed Systems</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">🤖</div>
+                    <p>Automation Tooling</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">💳</div>
+                    <p>FinTech Infrastructure</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">🛍️</div>
+                    <p>E-commerce Systems</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">🧠</div>
+                    <p>Computer Science Resources</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">🧪</div>
+                    <p>Technical Experiments</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">📚</div>
+                    <p>Tutorials & Notes</p>
+                </div>
+                <div class="project-tag">
+                    <div class="emoji">🎨</div>
+                    <p>Product & UX Experiments</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beyond Code -->
+    <section>
+        <div class="container">
+            <h2>Beyond Code</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">I create and curate technical content for people who enjoy understanding <strong>how things work</strong>, not just how to use them.</p>
+            <div class="beyond-grid">
+                <div class="beyond-card">
+                    <h3>📺 Unique Sources</h3>
+                    <p>Computer science resources, tutorials, walkthroughs, and technical content that goes deep into the fundamentals.</p>
+                </div>
+                <div class="beyond-card">
+                    <h3>♟️ Chess</h3>
+                    <p>I enjoy chess as a different kind of engineering problem: <strong>constraints, patterns, trade-offs, and long-term strategy</strong>.</p>
+                </div>
+                <div class="beyond-card">
+                    <h3>✍️ Writing</h3>
+                    <p>Technical notes, ideas, tutorials, and practical explorations across software engineering and computer science.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="connect">
+        <div class="container connect-section">
+            <h2>Let's Connect</h2>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">Follow my work, reach out for collaboration, or just say hello!</p>
+            
+            <div class="social-links">
+                <a href="https://youtube.com/@Unique_Sources" class="social-link" target="_blank">📺 YouTube</a>
+                <a href="https://github.com/irAbs174" class="social-link" target="_blank">🐙 GitHub</a>
+                <a href="https://linkedin.com/in/abbas-damerchi" class="social-link" target="_blank">💼 LinkedIn</a>
+                <a href="https://abbas-damerchi.medium.com" class="social-link" target="_blank">📝 Medium</a>
+                <a href="https://www.reddit.com/user/irAbs174/" class="social-link" target="_blank">🔗 Reddit</a>
+                <a href="https://t.me/Unique_Sources" class="social-link" target="_blank">✈️ Telegram</a>
+                <a href="https://discord.gg/DeHWVZRKS4" class="social-link" target="_blank">💬 Discord</a>
+                <a href="https://www.instagram.com/irAbs174" class="social-link" target="_blank">📸 Instagram</a>
+                <a href="https://x.com/abbasdamerchilo" class="social-link" target="_blank">𝕏 X/Twitter</a>
+                <a href="https://www.chess.com/member/irabs174" class="social-link" target="_blank">♟️ Chess</a>
+                <a href="https://www.facebook.com/abbasDamerchilo/" class="social-link" target="_blank">f Facebook</a>
+                <a href="https://getgems.io/Unique-NFT" class="social-link" target="_blank">💎 CS Resources</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>Build systems. Automate the boring parts. Make complex things feel simple.</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); font-style: normal;">
+                    © 2024 Abbas Damerchi. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.build-card, .beyond-card, .project-tag').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
