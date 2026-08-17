@@ -19,3 +19,6 @@ Combines deep backend architecture with hands-on UI/UX craft, SEO optimization a
 <a href="https://x.com/abbasdamerchi" target="_blank" rel="noopener noreferrer">
   <img src="https://img.shields.io/badge/x-000000?style=for-the-badge&logo=x&logoColor=white" alt="X" />
 </a>
+
+
+> If you want badges that open external sites in new tabs, use the GitHub Pages Socials page I created: [Socials page](https://irabs174.github.io/irAbs174/). Open that page and click a badge — the external site will open in a new tab.
