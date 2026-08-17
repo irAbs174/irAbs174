@@ -1,7 +1,23 @@
 # Abbas Damerchi
 
+<p align="center">
+  <img src="https://avatars.githubusercontent.com/u/108906651?v=4" alt="Abbas Damerchi" width="160" style="border-radius:50%">
+</p>
+
 Building distributed systems, automated e-commerce platforms and FinTech products.
 Combines deep backend architecture with hands-on UI/UX craft, SEO optimization and end-to-end workflow automation.
+
+---
+
+<!-- HERO STATS -->
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=irAbs174&show_icons=true&theme=default&hide_border=true" alt="irAbs174's GitHub stats" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=irAbs174&layout=compact&hide_border=true&theme=default" alt="Top languages" />
+</p>
+
+<p align="center">
+  <img src="https://ghchart.rshah.org/irAbs174" alt="Contribution graph" />
+</p>
 
 ---
 
