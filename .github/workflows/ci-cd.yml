@@ -1,0 +1,130 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    name: Validate static site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Required files present
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f docs/index.html
+          test -f deploy/deploy.sh
+          test -f deploy/nginx/damerchi.ir.conf
+          grep -q 'damerchi.ir' deploy/nginx/damerchi.ir.conf
+          # Socials source must stay in sync with homepage links
+          for url in \
+            'YouTube.com/@Unique_Sources' \
+            'facebook.com/abbasDamerchilo' \
+            'instagram.com/irAbs174' \
+            'Github.com/irAbs174' \
+            'reddit.com/user/abbas-damerchi' \
+            'LinkedIn.com/in/abbas-damerchi' \
+            'abbas-damerchi.Medium.com' \
+            'nahad1.blogsky.com' \
+            'discord.gg/DeHWVZRKS4' \
+            't.me/Unique_Sources' \
+            'x.com/abbasdamerchilo' \
+            'namasha.com/unique.sources' \
+            'aparat.com/unique174' \
+            'getgems.io/Unique-NFT' \
+            't.me/unique174' \
+            'web.bale.ai/@unique174'
+          do
+            grep -Fq "$url" index.html || { echo "Missing in index.html: $url"; exit 1; }
+          done
+
+  deploy:
+    name: Deploy damerchi.ir
+    needs: check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pack release
+        run: |
+          ARCHIVE="${RUNNER_TEMP}/damerchi-release.tar.gz"
+          tar -czf "$ARCHIVE" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.deploy' \
+            --exclude='.cursor' \
+            --exclude='*.pyc' \
+            .
+          cp "$ARCHIVE" "${GITHUB_WORKSPACE}/damerchi-release.tar.gz"
+          ls -lh damerchi-release.tar.gz
+
+      - name: Prepare release staging
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            STAGE_DIR=/tmp/damerchi-ci
+            mkdir -p "${STAGE_DIR}"
+            rm -f "${STAGE_DIR}/damerchi-release.tar.gz" /tmp/damerchi-release.tar.gz
+            if [[ -d "${STAGE_DIR}/damerchi-release.tar.gz" ]]; then
+              rm -rf "${STAGE_DIR}/damerchi-release.tar.gz"
+            fi
+            chmod 755 "${STAGE_DIR}"
+
+      - name: Upload release
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          source: damerchi-release.tar.gz
+          target: /tmp/damerchi-ci
+          overwrite: true
+
+      - name: Unpack and deploy (damerchi.ir only)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true
+          command_timeout: 10m
+          script: |
+            set -euo pipefail
+            export APP_DIR=/var/www/damerchi.ir
+            export STAGE_DIR=/tmp/damerchi-ci
+            export RELEASE_ARCHIVE=/tmp/damerchi-ci/damerchi-release.tar.gz
+            export DEPLOY_SHA=${{ github.sha }}
+
+            if [[ ! -f "${RELEASE_ARCHIVE}" ]]; then
+              echo "ERROR: release archive not found: ${RELEASE_ARCHIVE}" >&2
+              exit 1
+            fi
+
+            # Extract deploy.sh from this release and run it (never other sites)
+            TMP_EXTRACT="$(mktemp -d /tmp/damerchi-extract.XXXXXX)"
+            tar -xzf "${RELEASE_ARCHIVE}" -C "${TMP_EXTRACT}"
+            chmod +x "${TMP_EXTRACT}/deploy/deploy.sh"
+            bash "${TMP_EXTRACT}/deploy/deploy.sh"
+            rm -rf "${TMP_EXTRACT}"
