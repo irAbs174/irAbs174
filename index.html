@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Abbas Damerchi | backend and product engineer building reliable systems and useful digital products.">
     <title>Abbas Damerchi | Personal Portfolio</title>
+    <link rel="icon" type="image/webp" href="assets/header-logo.webp">
+    <link rel="apple-touch-icon" href="assets/header-logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -217,12 +219,8 @@
             width: 34px; height: 34px;
             border-radius: 10px;
             display: grid; place-items: center;
-            background: var(--gradient-1);
-            color: #fff;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 6px 24px -6px var(--glow-blue);
+            object-fit: cover;
+            border: 1px solid var(--border-strong);
         }
         .brand-text { color: var(--text); }
         .brand-text .accent { color: var(--accent); }
@@ -525,7 +523,7 @@
         @media (max-width: 880px) {
             .hero { padding: 56px 0 40px; }
             .hero-grid { grid-template-columns: 1fr; gap: 50px; }
-            .hero-portrait-wrap { max-width: 380px; order: -1; }
+            .hero-portrait-wrap { max-width: 380px; order: 1; }
         }
 
         /* =========================================================
@@ -930,8 +928,8 @@
     <header class="nav">
         <div class="container nav-inner">
             <a href="#top" class="brand" aria-label="Home">
-
-
+                <img class="brand-mark" src="assets/header-logo.webp" alt="">
+                <span class="brand-text">Abbas Damerchi</span>
             </a>
 
             <nav>
@@ -1371,7 +1369,7 @@
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.13-3.05-1.99 1.94c-.23.23-.42.42-.84.42z"></path></svg>
                             <span data-i18n="contact.tg">پیام در تلگرام</span>
                         </a>
-                        <a href="mailto:hi@damerchi.ir" class="btn btn-ghost">
+                        <a href="mailto:damerchiloa@gmail.com" class="btn btn-ghost">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
                             <span data-i18n="contact.mail">ارسال ایمیل</span>
                         </a>
