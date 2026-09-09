@@ -555,33 +555,15 @@
             display: grid;
             grid-template-columns: 1.1fr 1fr;
             gap: 48px;
-            align-items: start;
+            align-items: center;
         }
+        .about-text { display: flex; flex-direction: column; justify-content: center; }
         .about-text p {
             color: var(--text-soft);
             font-size: 1.05rem;
             margin-bottom: 16px;
         }
         .about-text strong { color: var(--text); font-weight: 600; }
-        .about-photo {
-            margin: 28px 0 0;
-            max-width: 440px;
-        }
-        .about-photo img {
-            width: 100%;
-            aspect-ratio: 16 / 8;
-            object-fit: cover;
-            object-position: 50% 42%;
-            display: block;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-strong);
-            filter: saturate(.9);
-        }
-        .about-photo figcaption {
-            margin-top: 8px;
-            color: var(--text-mute);
-            font-size: .78rem;
-        }
         .about-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -642,11 +624,10 @@
         .tech-card:hover { transform: translateY(-4px); border-color: var(--border-strong); box-shadow: 0 14px 30px -12px var(--glow-blue); }
         .tech-card:hover::before { transform: scaleX(1); }
         .tech-icon {
-            font-family: var(--font-mono);
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 8px;
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            margin: 0 auto 8px;
             display: block;
         }
         .tech-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
@@ -811,9 +792,10 @@
             flex-shrink: 0;
             border-radius: 12px;
             display: grid; place-items: center;
-            font-size: 1.2rem;
+            padding: 10px;
             color: white;
         }
+        .content-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
         .content-icon.yt  { background: linear-gradient(135deg, #ff0033, #c4001c); }
         .content-icon.ig  { background: linear-gradient(135deg, #f58529, #dd2a7b 50%, #8134af); }
         .content-icon.rd  { background: linear-gradient(135deg, #ff4500, #cc3700); }
@@ -995,9 +977,8 @@
                         </span>
 
                         <h1 class="hero-title">
-                            <span data-i18n="hero.greeting">سلام، من</span> <span class="grad">Abbas.</span><br>
-                            <span data-i18n="hero.title1">چیزهای پیچیده را</span><br>
-                            <span data-i18n="hero.title2">ساده‌تر و قابل استفاده می‌کنم.</span>
+                            <span data-i18n="hero.greeting">سلام. من</span> <span class="grad" data-i18n="hero.name">عباسم؛</span><br>
+                            <span data-i18n="hero.title1">یک تکنولوژیست</span>
                         </h1>
 
                         <p class="hero-sub" data-i18n="hero.sub"><strong>مهندس سیستم‌های توزیع‌شده</strong> در مرز معماری بک‌اند، اتوماسیون، فین‌تک و تجربه کاربری محصول. سیستم‌هایی قابل اعتماد و قابل مشاهده طراحی می‌کنم — و رابط‌هایی که واقعاً استفاده از آن‌ها لذت‌بخش است.</p>
@@ -1044,10 +1025,6 @@
                         <h2 class="section-title"><span data-i18n="about.title1">مهندسی با</span> <span class="grad" data-i18n="about.title2">ذوق محصول.</span></h2>
                         <p data-i18n="about.p1">من <strong>سیستم‌های قابل اعتماد و خودکاری می‌سازم که جریان‌های کاری پیچیده را به محصولاتی ساده تبدیل می‌کنند</strong>. کار من در تقاطع معماری بک‌اند، اتوماسیون، تجربه کاربری محصول و محتوای فنی قرار دارد — از سیستم‌های توزیع‌شده و فناوری مالی تا پلتفرم‌های تجارت الکترونیک خودکار و محصولات مبتنی بر سئو.</p>
                         <p data-i18n="about.p2">برایم فقط <em>کار کردن</em> نرم‌افزار مهم نیست؛ می‌خواهم واضح، قابل اعتماد و خوشایند باشد. این یعنی معماری سنجیده، پایش مفید و توجه به جزئیاتی که کاربر واقعاً حس می‌کند.</p>
-                        <figure class="about-photo">
-                            <img src="assets/abbas-luggage.jpg" alt="Abbas on a trip" loading="lazy">
-                            <figcaption data-i18n="about.photo">کمی زندگی خارج از ترمینال.</figcaption>
-                        </figure>
                     </div>
                     <div class="about-stats reveal in">
                         <div class="stat-card">
@@ -1082,37 +1059,37 @@
 
                 <div class="tech-grid reveal in" id="techGrid">
                 <div class="tech-card">
-                    <span class="tech-icon">Py</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/python/3776AB" alt="Python">
                     <div class="tech-name">Python</div>
                     <div class="tech-cat">بک‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Go</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/go/00ADD8" alt="Go">
                     <div class="tech-name">Go</div>
                     <div class="tech-cat">بک‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Node</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/nodedotjs/339933" alt="Node.js">
                     <div class="tech-name">Node.js</div>
                     <div class="tech-cat">بک‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">TS</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript">
                     <div class="tech-name">TypeScript</div>
                     <div class="tech-cat">بک‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">PG</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/postgresql/4169E1" alt="PostgreSQL">
                     <div class="tech-name">PostgreSQL</div>
                     <div class="tech-cat">داده</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Rd</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/redis/DC382D" alt="Redis">
                     <div class="tech-name">Redis</div>
                     <div class="tech-cat">داده</div>
                 </div>
@@ -1120,7 +1097,7 @@
 
 
                 <div class="tech-card">
-                    <span class="tech-icon">Dk</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker">
                     <div class="tech-name">Docker</div>
                     <div class="tech-cat">دواپس</div>
                 </div>
@@ -1128,43 +1105,43 @@
 
 
                 <div class="tech-card">
-                    <span class="tech-icon">Lx</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/linux/FCC624" alt="Linux">
                     <div class="tech-name">Linux</div>
                     <div class="tech-cat">دواپس</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Nx</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/nginx/009639" alt="Nginx">
                     <div class="tech-name">Nginx</div>
                     <div class="tech-cat">دواپس</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Git</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/git/F05032" alt="Git">
                     <div class="tech-name">Git</div>
                     <div class="tech-cat">ابزار</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Re</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/react/61DAFB" alt="React">
                     <div class="tech-name">React</div>
                     <div class="tech-cat">فرانت‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Nx</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/nextdotjs/000000" alt="Next.js">
                     <div class="tech-name">Next.js</div>
                     <div class="tech-cat">فرانت‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">Web</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML and CSS">
                     <div class="tech-name">HTML / CSS</div>
                     <div class="tech-cat">فرانت‌اند</div>
                 </div>
 
                 <div class="tech-card">
-                    <span class="tech-icon">API</span>
+                    <img class="tech-icon" src="https://cdn.simpleicons.org/grpc/244C5A" alt="REST and gRPC">
                     <div class="tech-name">REST / gRPC</div>
                     <div class="tech-cat">ابزار</div>
                 </div>
@@ -1445,9 +1422,10 @@
                 'nav.contact': 'Contact',
 
                 'hero.eyebrow': 'Open to interesting engineering work',
-                'hero.greeting': "Hi, I'm",
-                'hero.title1': 'I make complicated things',
-                'hero.title2': 'easier to use.',
+                'hero.greeting': "Hi. I'm",
+                'hero.name': 'Abbas;',
+                'hero.title1': 'a technologist',
+                'hero.title2': '',
                 'hero.sub': '<strong>Distributed systems engineer</strong> working at the intersection of backend architecture, automation, FinTech, and product UX. I design reliable, observable systems — and the interfaces people actually want to use.',
                 'hero.cta1': 'View Projects',
                 'hero.cta2': 'Get in Touch',
@@ -1462,7 +1440,6 @@
                 'about.title2': 'product instincts.',
                 'about.p1': 'I build <strong>reliable, automated systems that turn complex workflows into simple products</strong>. My work sits at the intersection of backend architecture, automation, product UX, and technical content — from distributed systems and financial technology to automated commerce platforms and SEO-driven products.',
                 'about.p2': 'I care about more than making software <em>work</em>. I want it to be clear, dependable, and pleasant to use. That means thoughtful architecture, useful monitoring, and attention to the small details people notice.',
-                'about.photo': 'A little life outside the terminal.',
                 'about.s1': 'Distributed systems & backend architecture',
                 'about.s2': 'FinTech · transactions · automation',
                 'about.s3': 'End-to-end e-commerce systems',
@@ -1514,9 +1491,10 @@
                 'nav.contact': 'تماس',
 
                 'hero.eyebrow': 'آماده همکاری در پروژه‌های مهندسی',
-                'hero.greeting': 'سلام، من',
-                'hero.title1': 'چیزهای پیچیده را',
-                'hero.title2': 'ساده‌تر و قابل استفاده می‌کنم.',
+                'hero.greeting': 'سلام. من',
+                'hero.name': 'عباسم؛',
+                'hero.title1': 'یک تکنولوژیست',
+                'hero.title2': '',
                 'hero.sub': '<strong>مهندس سیستم‌های توزیع‌شده</strong> در مرز معماری بک‌اند، اتوماسیون، فین‌تک و تجربه کاربری محصول. سیستم‌هایی قابل اعتماد و قابل مشاهده طراحی می‌کنم — و رابط‌هایی که واقعاً استفاده از آن‌ها لذت‌بخش است.',
                 'hero.cta1': 'مشاهده پروژه‌ها',
                 'hero.cta2': 'تماس با من',
@@ -1531,7 +1509,6 @@
                 'about.title2': 'ذوق محصول.',
                 'about.p1': 'من <strong>سیستم‌های قابل اعتماد و خودکاری می‌سازم که جریان‌های کاری پیچیده را به محصولاتی ساده تبدیل می‌کنند</strong>. کار من در تقاطع معماری بک‌اند، اتوماسیون، تجربه کاربری محصول و محتوای فنی قرار دارد — از سیستم‌های توزیع‌شده و فناوری مالی تا پلتفرم‌های تجارت الکترونیک خودکار و محصولات مبتنی بر سئو.',
                 'about.p2': 'برایم فقط <em>کار کردن</em> نرم‌افزار مهم نیست؛ می‌خواهم واضح، قابل اعتماد و خوشایند باشد. این یعنی معماری سنجیده، پایش مفید و توجه به جزئیاتی که کاربر واقعاً حس می‌کند.',
-                'about.photo': 'کمی زندگی خارج از ترمینال.',
                 'about.s1': 'سیستم‌های توزیع‌شده و معماری بک‌اند',
                 'about.s2': 'فین‌تک · تراکنش · اتوماسیون',
                 'about.s3': 'سیستم‌های تجارت الکترونیک سرتاسری',
@@ -1580,22 +1557,22 @@
            DATA
            ========================================================= */
         const TECH = [
-            { name: 'Python',   cat: 'backend',  mark: 'Py' },
-            { name: 'Go',       cat: 'backend',  mark: 'Go' },
-            { name: 'Node.js',  cat: 'backend',  mark: 'Node' },
-            { name: 'TypeScript', cat: 'backend', mark: 'TS' },
-            { name: 'PostgreSQL', cat: 'data',   mark: 'PG' },
-            { name: 'Redis',    cat: 'data',     mark: 'Rd' },
-            { name: 'MongoDB',  cat: 'data',     mark: 'Mo' },
-            { name: 'Docker',   cat: 'devops',   mark: 'Dk' },
-            { name: 'Kubernetes', cat: 'devops', mark: 'K8s' },
-            { name: 'Linux',    cat: 'devops',   mark: 'Lx' },
-            { name: 'Nginx',    cat: 'devops',   mark: 'Nx' },
-            { name: 'Git',      cat: 'tools',    mark: 'Git' },
-            { name: 'React',    cat: 'frontend', mark: 'Re' },
-            { name: 'Next.js',  cat: 'frontend', mark: 'Nx' },
-            { name: 'HTML / CSS', cat: 'frontend', mark: 'Web' },
-            { name: 'REST / gRPC', cat: 'tools', mark: 'API' }
+            { name: 'Python', cat: 'backend', logo: 'https://cdn.simpleicons.org/python/3776AB' },
+            { name: 'Go', cat: 'backend', logo: 'https://cdn.simpleicons.org/go/00ADD8' },
+            { name: 'Node.js', cat: 'backend', logo: 'https://cdn.simpleicons.org/nodedotjs/339933' },
+            { name: 'TypeScript', cat: 'backend', logo: 'https://cdn.simpleicons.org/typescript/3178C6' },
+            { name: 'PostgreSQL', cat: 'data', logo: 'https://cdn.simpleicons.org/postgresql/4169E1' },
+            { name: 'Redis', cat: 'data', logo: 'https://cdn.simpleicons.org/redis/DC382D' },
+            { name: 'MongoDB', cat: 'data', logo: 'https://cdn.simpleicons.org/mongodb/47A248' },
+            { name: 'Docker', cat: 'devops', logo: 'https://cdn.simpleicons.org/docker/2496ED' },
+            { name: 'Kubernetes', cat: 'devops', logo: 'https://cdn.simpleicons.org/kubernetes/326CE5' },
+            { name: 'Linux', cat: 'devops', logo: 'https://cdn.simpleicons.org/linux/FCC624' },
+            { name: 'Nginx', cat: 'devops', logo: 'https://cdn.simpleicons.org/nginx/009639' },
+            { name: 'Git', cat: 'tools', logo: 'https://cdn.simpleicons.org/git/F05032' },
+            { name: 'React', cat: 'frontend', logo: 'https://cdn.simpleicons.org/react/61DAFB' },
+            { name: 'Next.js', cat: 'frontend', logo: 'https://cdn.simpleicons.org/nextdotjs/000000' },
+            { name: 'HTML / CSS', cat: 'frontend', logo: 'https://cdn.simpleicons.org/html5/E34F26' },
+            { name: 'REST / gRPC', cat: 'tools', logo: 'https://cdn.simpleicons.org/grpc/244C5A' }
         ];
 
         const CAREER = [
@@ -1665,22 +1642,22 @@
         ];
 
         const SOCIALS = [
-            { name: 'YouTube',  handle: '@Unique_Sources',        cls: 'yt',   href: 'https://YouTube.com/@Unique_Sources' },
-            { name: 'Facebook', handle: '/abbasDamerchilo',        cls: 'fb',   href: 'https://www.facebook.com/abbasDamerchilo/' },
-            { name: 'Instagram', handle: '@irAbs174',             cls: 'ig',   href: 'https://www.instagram.com/irAbs174' },
-            { name: 'GitHub',   handle: '@irAbs174',               cls: 'gh',   href: 'https://Github.com/irAbs174' },
-            { name: 'Reddit',   handle: 'u/abbas-damerchi',        cls: 'rd',   href: 'https://www.reddit.com/user/abbas-damerchi/' },
-            { name: 'LinkedIn', handle: 'in/abbas-damerchi',       cls: 'li',   href: 'https://LinkedIn.com/in/abbas-damerchi' },
-            { name: 'Medium',   handle: '@abbas-damerchi',         cls: 'med',  href: 'https://abbas-damerchi.Medium.com' },
-            { name: 'Blogsky',  handle: 'nahad1.blogsky.com',      cls: 'bs',   href: 'https://nahad1.blogsky.com/' },
-            { name: 'Discord',  handle: 'Unique Sources',          cls: 'disc', href: 'https://discord.gg/DeHWVZRKS4' },
-            { name: 'Telegram', handle: '@Unique_Sources',         cls: 'tg',   href: 'https://t.me/Unique_Sources' },
-            { name: 'X',        handle: '@abbasdamerchi',          cls: 'x',    href: 'https://x.com/abbasdamerchi' },
-            { name: 'Namasha',  handle: 'unique.sources',          cls: 'nm',   href: 'https://www.namasha.com/unique.sources' },
-            { name: 'Aparat',   handle: 'unique174',               cls: 'ap',   href: 'https://www.aparat.com/unique174' },
-            { name: 'Unique NFT', handle: 'getgems.io/Unique-NFT', cls: 'nft',  href: 'https://getgems.io/Unique-NFT' },
-            { name: 'DM Telegram', handle: '@unique174',           cls: 'tg',   href: 'https://t.me/unique174' },
-            { name: 'Bale',     handle: '@unique174',              cls: 'bale', href: 'https://web.bale.ai/@unique174' }
+            { name: 'YouTube', handle: '@Unique_Sources', cls: 'yt', logo: 'https://cdn.simpleicons.org/youtube/FFFFFF', href: 'https://YouTube.com/@Unique_Sources' },
+            { name: 'Facebook', handle: '/abbasDamerchilo', cls: 'fb', logo: 'https://cdn.simpleicons.org/facebook/FFFFFF', href: 'https://www.facebook.com/abbasDamerchilo/' },
+            { name: 'Instagram', handle: '@irAbs174', cls: 'ig', logo: 'https://cdn.simpleicons.org/instagram/FFFFFF', href: 'https://www.instagram.com/irAbs174' },
+            { name: 'GitHub', handle: '@irAbs174', cls: 'gh', logo: 'https://cdn.simpleicons.org/github/FFFFFF', href: 'https://Github.com/irAbs174' },
+            { name: 'Reddit', handle: 'u/abbas-damerchi', cls: 'rd', logo: 'https://cdn.simpleicons.org/reddit/FFFFFF', href: 'https://www.reddit.com/user/abbas-damerchi/' },
+            { name: 'LinkedIn', handle: 'in/abbas-damerchi', cls: 'li', logo: 'https://cdn.simpleicons.org/linkedin/FFFFFF', href: 'https://LinkedIn.com/in/abbas-damerchi' },
+            { name: 'Medium', handle: '@abbas-damerchi', cls: 'med', logo: 'https://cdn.simpleicons.org/medium/FFFFFF', href: 'https://abbas-damerchi.Medium.com' },
+            { name: 'Blogsky', handle: 'nahad1.blogsky.com', cls: 'bs', logo: 'https://cdn.simpleicons.org/blogger/FFFFFF', href: 'https://nahad1.blogsky.com/' },
+            { name: 'Discord', handle: 'Unique Sources', cls: 'disc', logo: 'https://cdn.simpleicons.org/discord/FFFFFF', href: 'https://discord.gg/DeHWVZRKS4' },
+            { name: 'Telegram', handle: '@Unique_Sources', cls: 'tg', logo: 'https://cdn.simpleicons.org/telegram/FFFFFF', href: 'https://t.me/Unique_Sources' },
+            { name: 'X', handle: '@abbasdamerchi', cls: 'x', logo: 'https://cdn.simpleicons.org/x/FFFFFF', href: 'https://x.com/abbasdamerchi' },
+            { name: 'Namasha', handle: 'unique.sources', cls: 'nm', logo: 'https://cdn.simpleicons.org/youtube/FFFFFF', href: 'https://www.namasha.com/unique.sources' },
+            { name: 'Aparat', handle: 'unique174', cls: 'ap', logo: 'https://cdn.simpleicons.org/youtube/FFFFFF', href: 'https://www.aparat.com/unique174' },
+            { name: 'Unique NFT', handle: 'getgems.io/Unique-NFT', cls: 'nft', logo: 'https://cdn.simpleicons.org/opensea/FFFFFF', href: 'https://getgems.io/Unique-NFT' },
+            { name: 'DM Telegram', handle: '@unique174', cls: 'tg', logo: 'https://cdn.simpleicons.org/telegram/FFFFFF', href: 'https://t.me/unique174' },
+            { name: 'Bale', handle: '@unique174', cls: 'bale', logo: 'https://cdn.simpleicons.org/telegram/FFFFFF', href: 'https://web.bale.ai/@unique174' }
         ];
 
         /* =========================================================
@@ -1716,7 +1693,7 @@
             const grid = document.getElementById('techGrid');
             grid.innerHTML = TECH.map(tech => `
                 <div class="tech-card">
-                    <span class="tech-icon">${tech.mark}</span>
+                    <img class="tech-icon" src="${tech.logo}" alt="${tech.name}" loading="lazy">
                     <div class="tech-name">${tech.name}</div>
                     <div class="tech-cat">${t('tech.cat.' + tech.cat)}</div>
                 </div>
@@ -1775,7 +1752,9 @@
             const grid = document.getElementById('contentGrid');
             grid.innerHTML = SOCIALS.map(s => `
                 <a class="content-card" href="${s.href}" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon ${s.cls}">${s.name[0]}</div>
+                    <div class="content-icon ${s.cls}">
+                        <img src="${s.logo}" alt="" loading="lazy">
+                    </div>
                     <div>
                         <div class="content-name">${s.name}</div>
                         <div class="content-handle">${s.handle}</div>
