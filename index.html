@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Abbas Damerchi — Distributed Systems Engineer. Backend architecture, FinTech, E-Commerce automation and product engineering.">
-    <title>Abbas Damerchi — Engineering Portfolio</title>
+    <meta name="description" content="Abbas Damerchi — backend and product engineer building reliable systems and useful digital products.">
+    <title>Abbas Damerchi — Personal Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -162,12 +162,7 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--accent);
-            padding: 6px 14px;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            background: var(--surface);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            padding: 0;
         }
         html[dir="rtl"] .section-eyebrow { letter-spacing: 0; }
 
@@ -343,11 +338,7 @@
             font-size: 0.8rem;
             letter-spacing: 0.04em;
             color: var(--text-soft);
-            padding: 8px 14px;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            background: var(--surface);
-            backdrop-filter: blur(8px);
+            padding: 0;
         }
         .hero-eyebrow .dot {
             width: 8px; height: 8px;
@@ -452,7 +443,7 @@
             background: conic-gradient(from 0deg, var(--accent), var(--accent-3), var(--accent-2), var(--accent));
             filter: blur(28px);
             opacity: 0.55;
-            animation: spin 18s linear infinite;
+            display: none;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .portrait-ring-2 {
@@ -460,21 +451,21 @@
             inset: 6%;
             border-radius: 50%;
             border: 1px solid var(--border-strong);
-            opacity: 0.55;
+            opacity: 0.3;
         }
         .portrait-ring-3 {
             position: absolute;
             inset: 14%;
             border-radius: 50%;
-            border: 1px dashed var(--border);
-            opacity: 0.5;
+            border: 1px solid var(--border);
+            opacity: 0.25;
         }
         .portrait {
             position: relative;
             width: 78%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
-            background: var(--gradient-1);
+            background: var(--bg-elev-2);
             display: grid; place-items: center;
             color: white;
             font-family: var(--font-mono);
@@ -483,11 +474,13 @@
             letter-spacing: -0.04em;
             box-shadow: var(--shadow-glow);
             overflow: hidden;
+            border: 1px solid var(--border-strong);
         }
         .portrait img {
             width: 100%; height: 100%;
             object-fit: cover;
             display: block;
+            object-position: 50% 25%;
         }
         .portrait-badge {
             position: absolute;
@@ -506,6 +499,8 @@
             font-weight: 500;
             box-shadow: 0 10px 30px -8px rgba(0,0,0,0.4);
         }
+        .portrait-badge .icon { display: none; }
+        .portrait-badge { padding: 9px 12px; }
         .portrait-badge .icon {
             width: 28px; height: 28px;
             border-radius: 8px;
@@ -568,6 +563,25 @@
             margin-bottom: 16px;
         }
         .about-text strong { color: var(--text); font-weight: 600; }
+        .about-photo {
+            margin: 28px 0 0;
+            max-width: 440px;
+        }
+        .about-photo img {
+            width: 100%;
+            aspect-ratio: 16 / 8;
+            object-fit: cover;
+            object-position: 50% 42%;
+            display: block;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-strong);
+            filter: saturate(.9);
+        }
+        .about-photo figcaption {
+            margin-top: 8px;
+            color: var(--text-mute);
+            font-size: .78rem;
+        }
         .about-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -734,21 +748,17 @@
             position: relative;
             overflow: hidden;
         }
+        .proj-cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: saturate(.88);
+        }
         .proj-cover::after {
             content: '';
             position: absolute; inset: 0;
             background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55));
-        }
-        .proj-cover-mark {
-            position: absolute;
-            inset: 0;
-            display: grid; place-items: center;
-            font-family: var(--font-mono);
-            font-weight: 800;
-            color: rgba(255,255,255,0.92);
-            font-size: 1.6rem;
-            letter-spacing: -0.04em;
-            text-shadow: 0 4px 24px rgba(0,0,0,0.35);
         }
         .proj-cover-pattern {
             position: absolute; inset: 0;
@@ -756,6 +766,7 @@
             background-size: 16px 16px;
             opacity: 0.45;
             mix-blend-mode: overlay;
+            z-index: 1;
         }
         .proj-body { padding: 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
         .proj-title { font-size: 1.15rem; font-weight: 700; color: var(--text); }
@@ -986,9 +997,9 @@
                         </span>
 
                         <h1 class="hero-title">
-                            <span data-i18n="hero.greeting">Hi, I'm</span> <span class="grad">Abbas Damerchi</span>.<br>
-                            <span data-i18n="hero.title1">I build systems that</span><br>
-                            <span data-i18n="hero.title2">turn complexity into product.</span>
+                            <span data-i18n="hero.greeting">Hi, I'm</span> <span class="grad">Abbas.</span><br>
+                            <span data-i18n="hero.title1">I make complicated things</span><br>
+                            <span data-i18n="hero.title2">easier to use.</span>
                         </h1>
 
                         <p class="hero-sub" data-i18n="hero.sub">
@@ -1009,12 +1020,12 @@
                                 <span class="l" data-i18n="hero.stat1">YRS · engineering</span>
                             </div>
                             <div class="hero-stat">
-                                <span class="v" style="background: var(--gradient-1); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">∞</span>
+                                <span class="v">20+</span>
                                 <span class="l" data-i18n="hero.stat2">AUTOMATED · workflows</span>
                             </div>
                             <div class="hero-stat">
                                 <span class="v">4</span>
-                                <span class="l" data-i18n="hero.stat3">DOMAINS · focus areas</span>
+                                <span class="l" data-i18n="hero.stat3">AREAS · I work in</span>
                             </div>
                         </div>
                     </div>
@@ -1024,14 +1035,12 @@
                         <div class="portrait-ring-2" aria-hidden="true"></div>
                         <div class="portrait-ring-3" aria-hidden="true"></div>
                         <div class="portrait" id="portrait">
-                            <!-- Drop in a real <img> at assets/avatar.jpg to replace the initials. -->
-                            AD
+                            <img src="assets/abbas-portrait.jpg" alt="Abbas Damerchi standing outside" loading="eager">
                         </div>
                         <div class="portrait-badge">
-                            <div class="icon">⚙</div>
                             <div>
-                                <span class="lbl" data-i18n="hero.badgeLabel">CURRENTLY</span>
-                                <span class="val" data-i18n="hero.badgeVal">Building distributed systems</span>
+                                <span class="lbl" data-i18n="hero.badgeLabel">RIGHT NOW</span>
+                                <span class="val" data-i18n="hero.badgeVal">Turning ideas into useful tools</span>
                             </div>
                         </div>
                     </div>
@@ -1044,10 +1053,14 @@
             <div class="container">
                 <div class="about-grid">
                     <div class="about-text reveal">
-                        <span class="section-eyebrow"><span class="ic">/01</span> <span data-i18n="about.eyebrow">About</span></span>
+                        <span class="section-eyebrow"><span data-i18n="about.eyebrow">About</span></span>
                         <h2 class="section-title"><span data-i18n="about.title1">Engineering with</span> <span class="grad" data-i18n="about.title2">product instincts.</span></h2>
                         <p data-i18n="about.p1">I build <strong>reliable, automated systems that turn complex workflows into simple products</strong>. My work sits at the intersection of backend architecture, automation, product UX, and technical content — from distributed systems and financial technology to automated commerce platforms and SEO-driven products.</p>
                         <p data-i18n="about.p2">I care about more than making software <em>work</em>. I care about <strong>architecture</strong>, <strong>observability</strong>, <strong>maintainability</strong>, and the <strong>end-user experience</strong>. The goal is always the same: systems that are reliable underneath and effortless on top.</p>
+                        <figure class="about-photo">
+                            <img src="assets/abbas-luggage.jpg" alt="Abbas on a trip" loading="lazy">
+                            <figcaption data-i18n="about.photo">A little life outside the terminal.</figcaption>
+                        </figure>
                     </div>
                     <div class="about-stats reveal">
                         <div class="stat-card">
@@ -1075,7 +1088,7 @@
         <section class="section" id="stack">
             <div class="container">
                 <div class="reveal">
-                    <span class="section-eyebrow"><span class="ic">/02</span> <span data-i18n="stack.eyebrow">Stack</span></span>
+                    <span class="section-eyebrow"><span data-i18n="stack.eyebrow">Stack</span></span>
                     <h2 class="section-title"><span data-i18n="stack.title1">Technologies I</span> <span class="grad" data-i18n="stack.title2">build with.</span></h2>
                     <p class="section-sub" data-i18n="stack.sub">A practical toolkit focused on backend depth, automation, and shipping products that hold up in production.</p>
                 </div>
@@ -1090,7 +1103,7 @@
         <section class="section" id="career">
             <div class="container">
                 <div class="reveal">
-                    <span class="section-eyebrow"><span class="ic">/03</span> <span data-i18n="career.eyebrow">Career</span></span>
+                    <span class="section-eyebrow"><span data-i18n="career.eyebrow">Career</span></span>
                     <h2 class="section-title"><span data-i18n="career.title1">A career</span> <span class="grad" data-i18n="career.title2">journey.</span></h2>
                     <p class="section-sub" data-i18n="career.sub">A focused path through backend, automation, financial systems, and product engineering — built one production system at a time.</p>
                 </div>
@@ -1105,7 +1118,7 @@
         <section class="section" id="projects">
             <div class="container">
                 <div class="reveal">
-                    <span class="section-eyebrow"><span class="ic">/04</span> <span data-i18n="projects.eyebrow">Projects</span></span>
+                    <span class="section-eyebrow"><span data-i18n="projects.eyebrow">Projects</span></span>
                     <h2 class="section-title"><span data-i18n="projects.title1">Featured</span> <span class="grad" data-i18n="projects.title2">work.</span></h2>
                     <p class="section-sub" data-i18n="projects.sub">A selection of systems, tools, and products I've built — focused on real reliability, automation, and user value.</p>
                 </div>
@@ -1120,7 +1133,7 @@
         <section class="section" id="content">
             <div class="container">
                 <div class="reveal">
-                    <span class="section-eyebrow"><span class="ic">/05</span> <span data-i18n="content.eyebrow">Content</span></span>
+                    <span class="section-eyebrow"><span data-i18n="content.eyebrow">Content</span></span>
                     <h2 class="section-title"><span data-i18n="content.title1">Where I</span> <span class="grad" data-i18n="content.title2">share & connect.</span></h2>
                     <p class="section-sub" data-i18n="content.sub">I create technical content and stay active across a few channels. Pick the one you prefer.</p>
                 </div>
@@ -1135,7 +1148,7 @@
         <section class="section" id="contact">
             <div class="container">
                 <div class="contact-card reveal">
-                    <span class="section-eyebrow"><span class="ic">/06</span> <span data-i18n="contact.eyebrow">Contact</span></span>
+                    <span class="section-eyebrow"><span data-i18n="contact.eyebrow">Contact</span></span>
                     <h2 class="contact-title"><span data-i18n="contact.title1">Let's build</span> <span class="grad" data-i18n="contact.title2">something reliable.</span></h2>
                     <p class="contact-sub" data-i18n="contact.sub">Open to collaboration on distributed systems, FinTech, automation tooling, and product engineering. Reach out — I'd love to hear what you're working on.</p>
                     <div class="contact-actions">
@@ -1184,22 +1197,23 @@
 
                 'hero.eyebrow': 'Open to interesting engineering work',
                 'hero.greeting': "Hi, I'm",
-                'hero.title1': 'I build systems that',
-                'hero.title2': 'turn complexity into product.',
+                'hero.title1': 'I make complicated things',
+                'hero.title2': 'easier to use.',
                 'hero.sub': '<strong>Distributed systems engineer</strong> working at the intersection of backend architecture, automation, FinTech, and product UX. I design reliable, observable systems — and the interfaces people actually want to use.',
                 'hero.cta1': 'View Projects',
                 'hero.cta2': 'Get in Touch',
                 'hero.stat1': 'YRS · engineering',
-                'hero.stat2': 'AUTOMATED · workflows',
-                'hero.stat3': 'DOMAINS · focus areas',
-                'hero.badgeLabel': 'CURRENTLY',
-                'hero.badgeVal': 'Building distributed systems',
+                'hero.stat2': 'PROJECTS · shipped',
+                'hero.stat3': 'AREAS · I work in',
+                'hero.badgeLabel': 'RIGHT NOW',
+                'hero.badgeVal': 'Turning ideas into useful tools',
 
                 'about.eyebrow': 'About',
                 'about.title1': 'Engineering with',
                 'about.title2': 'product instincts.',
                 'about.p1': 'I build <strong>reliable, automated systems that turn complex workflows into simple products</strong>. My work sits at the intersection of backend architecture, automation, product UX, and technical content — from distributed systems and financial technology to automated commerce platforms and SEO-driven products.',
-                'about.p2': 'I care about more than making software <em>work</em>. I care about <strong>architecture</strong>, <strong>observability</strong>, <strong>maintainability</strong>, and the <strong>end-user experience</strong>. The goal is always the same: systems that are reliable underneath and effortless on top.',
+                'about.p2': 'I care about more than making software <em>work</em>. I want it to be clear, dependable, and pleasant to use. That means thoughtful architecture, useful monitoring, and attention to the small details people notice.',
+                'about.photo': 'A little life outside the terminal.',
                 'about.s1': 'Distributed systems & backend architecture',
                 'about.s2': 'FinTech · transactions · automation',
                 'about.s3': 'End-to-end e-commerce systems',
@@ -1252,22 +1266,23 @@
 
                 'hero.eyebrow': 'آماده همکاری در پروژه‌های مهندسی',
                 'hero.greeting': 'سلام، من',
-                'hero.title1': 'سیستم‌هایی می‌سازم که',
-                'hero.title2': 'پیچیدگی را به محصول تبدیل می‌کنند.',
+                'hero.title1': 'چیزهای پیچیده را',
+                'hero.title2': 'ساده‌تر و قابل استفاده می‌کنم.',
                 'hero.sub': '<strong>مهندس سیستم‌های توزیع‌شده</strong> در مرز معماری بک‌اند، اتوماسیون، فین‌تک و تجربه کاربری محصول. سیستم‌هایی قابل اعتماد و قابل مشاهده طراحی می‌کنم — و رابط‌هایی که واقعاً استفاده از آن‌ها لذت‌بخش است.',
                 'hero.cta1': 'مشاهده پروژه‌ها',
                 'hero.cta2': 'تماس با من',
                 'hero.stat1': 'سال · مهندسی',
-                'hero.stat2': 'جریان کاری · خودکار',
-                'hero.stat3': 'حوزه · تخصص',
-                'hero.badgeLabel': 'اکنون',
-                'hero.badgeVal': 'ساخت سیستم‌های توزیع‌شده',
+                'hero.stat2': 'پروژه · منتشرشده',
+                'hero.stat3': 'حوزه‌هایی که در آن کار می‌کنم',
+                'hero.badgeLabel': 'این روزها',
+                'hero.badgeVal': 'تبدیل ایده‌ها به ابزارهای کاربردی',
 
                 'about.eyebrow': 'درباره',
                 'about.title1': 'مهندسی با',
                 'about.title2': 'ذوق محصول.',
                 'about.p1': 'من <strong>سیستم‌های قابل اعتماد و خودکاری می‌سازم که جریان‌های کاری پیچیده را به محصولاتی ساده تبدیل می‌کنند</strong>. کار من در تقاطع معماری بک‌اند، اتوماسیون، تجربه کاربری محصول و محتوای فنی قرار دارد — از سیستم‌های توزیع‌شده و فناوری مالی تا پلتفرم‌های تجارت الکترونیک خودکار و محصولات مبتنی بر سئو.',
-                'about.p2': 'برایم مهم‌تر از <em>کار کردن</em> نرم‌افزار، <strong>معماری</strong>، <strong>قابلیت مشاهده</strong>، <strong>نگهداری‌پذیری</strong> و <strong>تجربه کاربر نهایی</strong> است. هدف همیشه یک چیز است: سیستم‌هایی که در زیرساخت قابل اعتمادند و در ظاهر بی‌دردسر.',
+                'about.p2': 'برایم فقط <em>کار کردن</em> نرم‌افزار مهم نیست؛ می‌خواهم واضح، قابل اعتماد و خوشایند باشد. این یعنی معماری سنجیده، پایش مفید و توجه به جزئیاتی که کاربر واقعاً حس می‌کند.',
+                'about.photo': 'کمی زندگی خارج از ترمینال.',
                 'about.s1': 'سیستم‌های توزیع‌شده و معماری بک‌اند',
                 'about.s2': 'فین‌تک · تراکنش · اتوماسیون',
                 'about.s3': 'سیستم‌های تجارت الکترونیک سرتاسری',
@@ -1374,24 +1389,28 @@
                 title: 'Distributed Transaction Pipeline',
                 desc: 'A fault-tolerant transaction processing pipeline for financial workflows — designed for reliability, observability, and operational simplicity.',
                 tags: ['Python', 'PostgreSQL', 'Redis', 'Queues'],
+                image: 'assets/abbas-trip.jpg',
                 links: [{ label: 'GitHub', href: 'https://Github.com/irAbs174' }]
             },
             {
                 title: 'E-Commerce Automation Suite',
                 desc: 'End-to-end automation for online commerce: catalog sync, order orchestration, pricing, and reporting — replacing repetitive ops with reliable systems.',
                 tags: ['Node.js', 'APIs', 'Workflows'],
+                image: 'assets/abbas-luggage.jpg',
                 links: [{ label: 'GitHub', href: 'https://Github.com/irAbs174' }]
             },
             {
                 title: 'System Design Notes & Resources',
                 desc: 'A growing library of system design, distributed systems, and backend engineering notes — practical, opinionated, and built for engineers.',
                 tags: ['Markdown', 'Education', 'Open Source'],
+                image: 'assets/abbas-portrait.jpg',
                 links: [{ label: 'GitHub', href: 'https://Github.com/irAbs174' }, { label: 'Medium', href: 'https://abbas-damerchi.Medium.com' }]
             },
             {
                 title: 'SEO-Driven Product Framework',
                 desc: 'A framework for building discoverable, content-driven web products — combining SEO, performance, and a clean developer experience.',
                 tags: ['Next.js', 'TypeScript', 'SEO'],
+                image: 'assets/abbas-trip.jpg',
                 links: [{ label: 'GitHub', href: 'https://Github.com/irAbs174' }]
             }
         ];
@@ -1481,8 +1500,8 @@
             grid.innerHTML = PROJECTS.map((p, i) => `
                 <article class="proj-card">
                     <div class="proj-cover">
-                        <div class="proj-cover-pattern"></div>
-                        <div class="proj-cover-mark">${String(i + 1).padStart(2, '0')}</div>
+                    <img class="proj-cover-image" src="${p.image}" alt="${p.title}" loading="lazy">
+                    <div class="proj-cover-pattern"></div>
                     </div>
                     <div class="proj-body">
                         <div class="proj-title">${p.title}</div>
