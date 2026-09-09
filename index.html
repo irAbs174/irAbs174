@@ -46,9 +46,9 @@
             --accent:        #7c8cff;
             --accent-2:      #5be3d6;
             --accent-3:      #b07bff;
-            --gradient-1:    linear-gradient(135deg, #6a8bff 0%, #b07bff 60%, #5be3d6 100%);
-            --gradient-soft: linear-gradient(135deg, rgba(106,139,255,.20), rgba(176,123,255,.18) 50%, rgba(91,227,214,.16));
-            --shadow-glow:   0 0 0 1px rgba(124,140,255,.15), 0 20px 60px -10px rgba(106,139,255,.35);
+            --gradient-1:    linear-gradient(135deg, #7182f5, #8d78d8);
+            --gradient-soft: linear-gradient(135deg, rgba(113,130,245,.14), rgba(141,120,216,.10));
+            --shadow-glow:   0 0 0 1px rgba(124,140,255,.12), 0 16px 40px -14px rgba(106,139,255,.24);
             --grid-color:    rgba(120, 140, 200, 0.06);
             --orb-1: rgba(106, 139, 255, 0.35);
             --orb-2: rgba(176, 123, 255, 0.30);
@@ -71,9 +71,9 @@
             --accent:        #5160e8;
             --accent-2:      #1aa697;
             --accent-3:      #8a4dd8;
-            --gradient-1:    linear-gradient(135deg, #5160e8 0%, #8a4dd8 60%, #1aa697 100%);
-            --gradient-soft: linear-gradient(135deg, rgba(81,96,232,.10), rgba(138,77,216,.08) 50%, rgba(26,166,151,.08));
-            --shadow-glow:   0 0 0 1px rgba(81,96,232,.10), 0 20px 50px -10px rgba(81,96,232,.25);
+            --gradient-1:    linear-gradient(135deg, #5868d9, #7656b8);
+            --gradient-soft: linear-gradient(135deg, rgba(88,104,217,.10), rgba(118,86,184,.07));
+            --shadow-glow:   0 0 0 1px rgba(81,96,232,.08), 0 16px 40px -14px rgba(81,96,232,.18);
             --grid-color:    rgba(20, 30, 70, 0.05);
             --orb-1: rgba(81, 96, 232, 0.18);
             --orb-2: rgba(138, 77, 216, 0.16);
@@ -193,9 +193,9 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            background: color-mix(in srgb, var(--bg) 70%, transparent);
+            backdrop-filter: blur(14px) saturate(120%);
+            -webkit-backdrop-filter: blur(14px) saturate(120%);
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
             border-bottom: 1px solid var(--border);
             transition: background var(--t-base);
         }
@@ -230,20 +230,20 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 2px;
             list-style: none;
             padding: 0; margin: 0;
         }
         .nav-links a {
             display: inline-block;
-            padding: 8px 14px;
+            padding: 8px 12px;
             font-size: 0.92rem;
             font-weight: 500;
             color: var(--text-soft);
             border-radius: 8px;
             transition: all var(--t-fast);
         }
-        .nav-links a:hover { color: var(--text); background: var(--surface); }
+        .nav-links a:hover { color: var(--text); background: var(--bg-elev-2); }
 
         .nav-actions { display: flex; align-items: center; gap: 8px; }
 
@@ -264,20 +264,30 @@
         .lang-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 0 10px;
+            gap: 4px;
+            padding: 0 8px;
             height: 38px;
             border: 1px solid var(--border);
             background: var(--surface);
             color: var(--text-soft);
             border-radius: 10px;
             cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            line-height: 1;
             transition: all var(--t-fast);
         }
         .lang-pill:hover { color: var(--text); border-color: var(--border-strong); }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
 
         .nav-toggle {
             display: none;
@@ -433,7 +443,7 @@
             display: grid;
             place-items: center;
             aspect-ratio: 1 / 1;
-            max-width: 420px;
+            max-width: 500px;
             margin-inline: auto;
         }
         .portrait-ring {
@@ -462,7 +472,7 @@
         }
         .portrait {
             position: relative;
-            width: 78%;
+            width: 84%;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
             background: var(--bg-elev-2);
@@ -515,7 +525,7 @@
         @media (max-width: 880px) {
             .hero { padding: 56px 0 40px; }
             .hero-grid { grid-template-columns: 1fr; gap: 50px; }
-            .hero-portrait-wrap { max-width: 320px; order: -1; }
+            .hero-portrait-wrap { max-width: 380px; order: -1; }
         }
 
         /* =========================================================
@@ -607,22 +617,9 @@
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
             text-align: center;
-            transition: all var(--t-base);
             position: relative;
             overflow: hidden;
         }
-        .tech-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: var(--gradient-1);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform var(--t-base);
-        }
-        .tech-card:hover { transform: translateY(-4px); border-color: var(--border-strong); box-shadow: 0 14px 30px -12px var(--glow-blue); }
-        .tech-card:hover::before { transform: scaleX(1); }
         .tech-icon {
             width: 42px;
             height: 42px;
@@ -942,15 +939,15 @@
                     <li><a href="#about" data-i18n="nav.about">درباره</a></li>
                     <li><a href="#stack" data-i18n="nav.stack">ابزارها</a></li>
                     <li><a href="#career" data-i18n="nav.career">مسیر</a></li>
-                    <li><a href="#projects" data-i18n="nav.projects">پروژه‌ها</a></li>
                     <li><a href="#content" data-i18n="nav.content">محتوا</a></li>
                     <li><a href="#contact" data-i18n="nav.contact">تماس</a></li>
                 </ul>
             </nav>
 
             <div class="nav-actions">
-                <button class="lang-pill" id="langBtn" aria-label="Switch language">
-                    <span id="langLabel">فارسی</span>
+                <button class="lang-pill" id="langBtn" aria-label="Switch language" title="Switch language">
+                    <span id="langFlag" aria-hidden="true">🇮🇷</span>
+                    <span id="langLabel" class="sr-only">فارسی</span>
                 </button>
                 <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
                     <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
@@ -984,10 +981,6 @@
                         <p class="hero-sub" data-i18n="hero.sub"><strong>مهندس سیستم‌های مغیاس پذیر و توزیع شده</strong> در مرز معماری بک‌اند، اتوماسیون، فین‌تک و تجربه کاربری محصول. سیستم‌هایی قابل اعتماد و مغیاس پذیر طراحی می‌کنم و رابط‌هایی که واقعاً استفاده از آن‌ها لذت‌بخش است.</p>
 
                         <div class="hero-cta">
-                            <a href="#projects" class="btn btn-primary">
-                                <span data-i18n="hero.cta1">مشاهده پروژه‌ها</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
-                            </a>
                             <a href="#contact" class="btn btn-ghost" data-i18n="hero.cta2">تماس با من</a>
                         </div>
 
@@ -1237,7 +1230,7 @@
 
                 <div class="content-grid reveal in" id="contentGrid">
                 <a class="content-card" href="https://YouTube.com/@Unique_Sources" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon yt">Y</div>
+                    <div class="content-icon yt"><img src="https://cdn.simpleicons.org/youtube/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">یوتیوب</div>
                         <div class="content-handle">@Unique_Sources</div>
@@ -1245,7 +1238,7 @@
                 </a>
 
                 <a class="content-card" href="https://www.facebook.com/abbasDamerchilo/" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon fb">F</div>
+                    <div class="content-icon fb"><img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">فیسبوک</div>
                         <div class="content-handle">/abbasDamerchilo</div>
@@ -1253,7 +1246,7 @@
                 </a>
 
                 <a class="content-card" href="https://www.instagram.com/irAbs174" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon ig">I</div>
+                    <div class="content-icon ig"><img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">اینستاگرام</div>
                         <div class="content-handle">@irAbs174</div>
@@ -1261,7 +1254,7 @@
                 </a>
 
                 <a class="content-card" href="https://Github.com/irAbs174" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon gh">G</div>
+                    <div class="content-icon gh"><img src="https://cdn.simpleicons.org/github/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">گیت هاب</div>
                         <div class="content-handle">@irAbs174</div>
@@ -1269,7 +1262,7 @@
                 </a>
 
                 <a class="content-card" href="https://www.reddit.com/user/abbas-damerchi/" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon rd">R</div>
+                    <div class="content-icon rd"><img src="https://cdn.simpleicons.org/reddit/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">Reddit</div>
                         <div class="content-handle">u/abbas-damerchi</div>
@@ -1277,7 +1270,7 @@
                 </a>
 
                 <a class="content-card" href="https://LinkedIn.com/in/abbas-damerchi" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon li">L</div>
+                    <div class="content-icon li"><img src="https://cdn.simpleicons.org/linkedin/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">LinkedIn</div>
                         <div class="content-handle">in/abbas-damerchi</div>
@@ -1285,7 +1278,7 @@
                 </a>
 
                 <a class="content-card" href="https://abbas-damerchi.Medium.com" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon med">M</div>
+                    <div class="content-icon med"><img src="https://cdn.simpleicons.org/medium/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">Medium</div>
                         <div class="content-handle">@abbas-damerchi</div>
@@ -1293,7 +1286,7 @@
                 </a>
 
                 <a class="content-card" href="https://nahad1.blogsky.com/" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon bs">B</div>
+                    <div class="content-icon bs"><img src="https://cdn.simpleicons.org/blogger/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">وبلاگ بلاگ اسکای</div>
                         <div class="content-handle">nahad1.blogsky.com</div>
@@ -1301,7 +1294,7 @@
                 </a>
 
                 <a class="content-card" href="https://discord.gg/DeHWVZRKS4" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon disc">D</div>
+                    <div class="content-icon disc"><img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">Discord</div>
                         <div class="content-handle">Unique Sources</div>
@@ -1309,7 +1302,7 @@
                 </a>
 
                 <a class="content-card" href="https://t.me/Unique_Sources" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon tg">T</div>
+                    <div class="content-icon tg"><img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">Telegram</div>
                         <div class="content-handle">@Unique_Sources</div>
@@ -1317,7 +1310,7 @@
                 </a>
 
                 <a class="content-card" href="https://x.com/abbasdamerchi" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon x">X</div>
+                    <div class="content-icon x"><img src="https://cdn.simpleicons.org/x/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">X</div>
                         <div class="content-handle">@abbasdamerchi</div>
@@ -1325,7 +1318,7 @@
                 </a>
 
                 <a class="content-card" href="https://www.namasha.com/unique.sources" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon nm">N</div>
+                    <div class="content-icon nm"><img src="https://cdn.simpleicons.org/youtube/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">نماشا</div>
                         <div class="content-handle">unique.sources</div>
@@ -1333,7 +1326,7 @@
                 </a>
 
                 <a class="content-card" href="https://www.aparat.com/unique174" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon ap">A</div>
+                    <div class="content-icon ap"><img src="https://cdn.simpleicons.org/youtube/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">آپارات</div>
                         <div class="content-handle">unique174</div>
@@ -1341,7 +1334,7 @@
                 </a>
 
                 <a class="content-card" href="https://getgems.io/Unique-NFT" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon nft">U</div>
+                    <div class="content-icon nft"><img src="https://cdn.simpleicons.org/opensea/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">NFT Market</div>
                         <div class="content-handle">getgems.io/Unique-NFT</div>
@@ -1349,7 +1342,7 @@
                 </a>
 
                 <a class="content-card" href="https://t.me/unique174" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon tg">D</div>
+                    <div class="content-icon tg"><img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">DM Telegram</div>
                         <div class="content-handle">@unique174</div>
@@ -1357,7 +1350,7 @@
                 </a>
 
                 <a class="content-card" href="https://web.bale.ai/@unique174" target="_blank" rel="noopener noreferrer">
-                    <div class="content-icon bale">B</div>
+                    <div class="content-icon bale"><img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="" loading="lazy"></div>
                     <div>
                         <div class="content-name">پیام رسان بله</div>
                         <div class="content-handle">@unique174</div>
@@ -1674,7 +1667,8 @@
         function applyI18n() {
             document.documentElement.lang = store.lang;
             document.documentElement.dir  = store.lang === 'fa' ? 'rtl' : 'ltr';
-            document.getElementById('langLabel').textContent = store.lang === 'fa' ? 'FA' : 'EN';
+            document.getElementById('langFlag').textContent = store.lang === 'fa' ? '🇮🇷' : '🇺🇸';
+            document.getElementById('langLabel').textContent = store.lang === 'fa' ? 'فارسی' : 'English';
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
