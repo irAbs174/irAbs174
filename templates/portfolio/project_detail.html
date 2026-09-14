@@ -9,86 +9,121 @@
     <article class="case">
         <header class="case-hero">
             <div class="container">
-                <div class="case-hero-grid">
-                    <div class="case-hero-copy reveal">
-                        <p class="section-eyebrow">
-                            <a href="{% url 'project_list' %}">{% trans "Projects" %}</a>
-                        </p>
-                        <div class="proj-meta">
-                            {% if project.category %}
-                            <span class="pill">{{ project.get_category_display }}</span>
-                            {% endif %}
-                            {% if project.status %}
-                            <span class="proj-status">{{ project.get_status_display }}</span>
-                            {% endif %}
-                        </div>
-                        <h1 class="case-title">{% loc project 'title' %}</h1>
-                        {% if project.catalog_summary %}
-                        <p class="case-lede">{{ project.catalog_summary }}</p>
-                        {% endif %}
-                        {% if project.started_at or project.completed_at or project.client %}
-                        <dl class="case-facts">
-                            {% if project.started_at or project.completed_at %}
-                            <div>
-                                <dt>{% trans "Timeline" %}</dt>
-                                <dd>
-                                    {% if project.started_at and project.completed_at %}
-                                        {{ project.started_at|date:"Y" }}–{{ project.completed_at|date:"Y" }}
-                                    {% elif project.started_at %}
-                                        {{ project.started_at|date:"Y" }}–{% trans "Present" %}
-                                    {% else %}
-                                        {{ project.completed_at|date:"Y" }}
-                                    {% endif %}
-                                </dd>
-                            </div>
-                            {% endif %}
-                            {% if project.client %}
-                            <div>
-                                <dt>{% trans "Client" %}</dt>
-                                <dd>{{ project.client }}</dd>
-                            </div>
-                            {% endif %}
-                        </dl>
-                        {% endif %}
-                        {% if primary_link %}
-                        <div class="hero-cta">
-                            <a class="btn btn-primary" href="{{ primary_link.href }}" target="_blank" rel="noopener noreferrer">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-                                {{ primary_link.label }}
-                            </a>
+                <div class="case-hero-copy reveal">
+                    <p class="section-eyebrow">
+                        <a href="{% url 'project_list' %}">{% trans "Projects" %}</a>
+                    </p>
+                    <h1 class="case-title">{% loc project 'title' %}</h1>
+                    {% if project.catalog_summary %}
+                    <p class="case-lede">{{ project.catalog_summary }}</p>
+                    {% endif %}
+                    {% if project.category or project.status or project.started_at or project.completed_at or project.client %}
+                    <dl class="case-facts">
+                        {% if project.category %}
+                        <div>
+                            <dt>{% trans "Category" %}</dt>
+                            <dd>{{ project.get_category_display }}</dd>
                         </div>
                         {% endif %}
-                    </div>
-                    {% with cover=project.cover_url %}
-                    {% if cover %}
-                    <div class="case-cover reveal">
-                        <img src="{{ cover }}" alt="{{ project.cover_alt }}" width="960" height="600" loading="eager">
+                        {% if project.status %}
+                        <div>
+                            <dt>{% trans "Status" %}</dt>
+                            <dd>{{ project.get_status_display }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if project.started_at or project.completed_at %}
+                        <div>
+                            <dt>{% trans "Timeline" %}</dt>
+                            <dd>
+                                {% if project.started_at and project.completed_at %}
+                                    {{ project.started_at|date:"Y" }}–{{ project.completed_at|date:"Y" }}
+                                {% elif project.started_at %}
+                                    {{ project.started_at|date:"Y" }}–{% trans "Present" %}
+                                {% else %}
+                                    {{ project.completed_at|date:"Y" }}
+                                {% endif %}
+                            </dd>
+                        </div>
+                        {% endif %}
+                        {% if project.client %}
+                        <div>
+                            <dt>{% trans "Client" %}</dt>
+                            <dd>{{ project.client }}</dd>
+                        </div>
+                        {% endif %}
+                    </dl>
+                    {% endif %}
+                    {% if primary_link %}
+                    <div class="case-cta">
+                        <a class="btn btn-primary" href="{{ primary_link.href }}" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                            {{ primary_link.label }}
+                        </a>
                     </div>
                     {% endif %}
-                    {% endwith %}
                 </div>
+                {% with cover=project.cover_url %}
+                {% if cover %}
+                <div class="case-cover reveal">
+                    <img src="{{ cover }}" alt="{{ project.cover_alt }}" width="1180" height="664" loading="eager">
+                </div>
+                {% endif %}
+                {% endwith %}
             </div>
         </header>
 
         {% with paragraphs=project.story_paragraphs %}
-        {% if paragraphs %}
-        <section class="section case-block" aria-labelledby="case-story-title">
-            <div class="container">
-                <div class="reveal">
+        {% with roles=project.role_lines %}
+        {% if paragraphs or roles or tech_groups or project.links.all %}
+        <div class="case-body">
+            <div class="container case-layout">
+                {% if paragraphs %}
+                <section class="case-story reveal" aria-labelledby="case-story-title">
                     <h2 class="case-section-title" id="case-story-title">{% trans "The story" %}</h2>
                     <div class="case-prose">
                         {% for paragraph in paragraphs %}
                         <p>{{ paragraph }}</p>
                         {% endfor %}
                     </div>
-                </div>
+                </section>
+                {% endif %}
+
+                {% if roles or tech_groups or project.links.all %}
+                <aside class="case-aside reveal">
+                    {% if roles %}
+                    <section aria-labelledby="case-role-title">
+                        <h2 class="case-section-title" id="case-role-title">{% trans "My role" %}</h2>
+                        <ul class="case-roles">
+                            {% for role in roles %}
+                            <li>{{ role }}</li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                    {% endif %}
+
+                    {% if tech_groups %}
+                    <section aria-labelledby="case-stack-title">
+                        <h2 class="case-section-title" id="case-stack-title">{% trans "Technology stack" %}</h2>
+                        {% include "portfolio/partials/project_technologies.html" %}
+                    </section>
+                    {% endif %}
+
+                    {% if project.links.all %}
+                    <section aria-labelledby="case-links-title">
+                        <h2 class="case-section-title" id="case-links-title">{% trans "Links" %}</h2>
+                        {% include "portfolio/partials/project_links.html" %}
+                    </section>
+                    {% endif %}
+                </aside>
+                {% endif %}
             </div>
-        </section>
+        </div>
         {% endif %}
+        {% endwith %}
         {% endwith %}
 
         {% if gallery %}
-        <section class="section case-block" aria-labelledby="case-gallery-title">
+        <section class="case-block" aria-labelledby="case-gallery-title">
             <div class="container">
                 <h2 class="case-section-title reveal" id="case-gallery-title">{% trans "Gallery" %}</h2>
                 {% include "portfolio/partials/project_gallery.html" %}
@@ -96,45 +131,12 @@
         </section>
         {% endif %}
 
-        {% with roles=project.role_lines %}
-        {% if roles %}
-        <section class="section case-block" aria-labelledby="case-role-title">
+        {% if related_projects %}
+        <section class="section case-related" aria-labelledby="case-related-title">
             <div class="container">
                 <div class="reveal">
-                    <h2 class="case-section-title" id="case-role-title">{% trans "My role" %}</h2>
-                    <ul class="case-roles">
-                        {% for role in roles %}
-                        <li>{{ role }}</li>
-                        {% endfor %}
-                    </ul>
+                    <h2 class="section-title" id="case-related-title">{% trans "Related projects" %}</h2>
                 </div>
-            </div>
-        </section>
-        {% endif %}
-        {% endwith %}
-
-        {% if tech_groups %}
-        <section class="section case-block" aria-labelledby="case-stack-title">
-            <div class="container">
-                <h2 class="case-section-title reveal" id="case-stack-title">{% trans "Technology stack" %}</h2>
-                {% include "portfolio/partials/project_technologies.html" %}
-            </div>
-        </section>
-        {% endif %}
-
-        {% if project.links.all %}
-        <section class="section case-block" aria-labelledby="case-links-title">
-            <div class="container">
-                <h2 class="case-section-title reveal" id="case-links-title">{% trans "Links" %}</h2>
-                {% include "portfolio/partials/project_links.html" %}
-            </div>
-        </section>
-        {% endif %}
-
-        {% if related_projects %}
-        <section class="section case-block" aria-labelledby="case-related-title">
-            <div class="container">
-                <h2 class="case-section-title reveal" id="case-related-title">{% trans "Related projects" %}</h2>
                 {% include "portfolio/partials/related_projects.html" %}
             </div>
         </section>

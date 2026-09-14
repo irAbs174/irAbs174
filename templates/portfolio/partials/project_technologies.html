@@ -1,15 +1,13 @@
 {% load i18n %}
-<div class="tech-groups reveal">
+<div class="tech-groups">
     {% for label, techs in tech_groups %}
     <div class="tech-group">
         {% if label %}
         <h3 class="tech-group-label">{{ label }}</h3>
         {% endif %}
-        <div class="proj-tags">
-            {% for tech in techs %}
-            <span class="pill">{{ tech.name }}</span>
-            {% endfor %}
-        </div>
+        <p class="tech-group-items">
+            {% for tech in techs %}{{ tech.name }}{% if not forloop.last %} · {% endif %}{% endfor %}
+        </p>
     </div>
     {% endfor %}
 </div>

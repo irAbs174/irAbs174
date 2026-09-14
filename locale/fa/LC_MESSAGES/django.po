@@ -105,6 +105,15 @@ msgstr "همه پروژه‌ها"
 msgid "View case study"
 msgstr "مطالعه موردی"
 
+msgid "Selected work"
+msgstr "کارهای منتخب"
+
+msgid "Category"
+msgstr "دسته‌بندی"
+
+msgid "Status"
+msgstr "وضعیت"
+
 msgid "Filter by category"
 msgstr "فیلتر بر اساس دسته"
 
