@@ -181,6 +181,8 @@ jobs:
             export STAGE_DIR=/tmp/damerchi-ci
             export RELEASE_ARCHIVE=/tmp/damerchi-ci/damerchi-release.tar.gz
             export DEPLOY_SHA=${{ github.sha }}
+            export PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/
+            export PIP_TRUSTED_HOST=mirrors.aliyun.com
 
             if [[ ! -f "${RELEASE_ARCHIVE}" ]]; then
               echo "ERROR: release archive not found: ${RELEASE_ARCHIVE}" >&2

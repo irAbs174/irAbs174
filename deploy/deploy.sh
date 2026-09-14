@@ -15,7 +15,8 @@ if [[ ! -f "${RELEASE_ARCHIVE}" ]]; then
   exit 1
 fi
 
-mkdir -p "${APP_DIR}" /var/www/certbot "${APP_DIR}/data" "${APP_DIR}/media"
+mkdir -p "${APP_DIR}" "${APP_DIR}/data" "${APP_DIR}/media"
+mkdir -p /var/www/certbot 2>/dev/null || true
 TMP_EXTRACT="$(mktemp -d /tmp/damerchi-extract.XXXXXX)"
 trap 'rm -rf "${TMP_EXTRACT}"' EXIT
 
@@ -54,25 +55,30 @@ try:
 except Exception:
     data = {"raw": os.environ.get("AGENT_DBG_DATA")}
 payload = {
-    "sessionId": "6b9f74",
+    "sessionId": "d4a8e9",
     "hypothesisId": os.environ.get("AGENT_DBG_HID"),
-    "location": "deploy/deploy.sh:pip",
+    "location": "deploy/deploy.sh",
     "message": os.environ.get("AGENT_DBG_MSG"),
     "data": data,
     "timestamp": int(time.time() * 1000),
     "runId": os.environ.get("DEPLOY_SHA", "unknown"),
 }
 line = json.dumps(payload)
-print(line)
-try:
-    with open("/home/unique/Documents/projects/production/irAbs174/.cursor/debug-6b9f74.log", "a") as fh:
-        fh.write(line + "\n")
-except Exception:
-    pass
+print(line, flush=True)
+for path in (
+    "/home/unique/Documents/projects/production/irAbs174/.cursor/debug-d4a8e9.log",
+    "/tmp/debug-d4a8e9.log",
+):
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "a") as fh:
+            fh.write(line + "\n")
+    except Exception:
+        pass
 req = urllib.request.Request(
     "http://127.0.0.1:7651/ingest/e4b0b26a-9ef5-4ce1-9790-8c950143cea0",
     data=line.encode(),
-    headers={"Content-Type": "application/json", "X-Debug-Session-Id": "6b9f74"},
+    headers={"Content-Type": "application/json", "X-Debug-Session-Id": "d4a8e9"},
     method="POST",
 )
 try:
@@ -81,20 +87,42 @@ except Exception:
     pass
 PY
 }
-_pypi_probe="$(curl -sS -o /dev/null -w "http=%{http_code} time=%{time_total} ip=%{remote_ip}" --max-time 15 https://pypi.org/simple/pip/ 2>&1 || true)"
-_pypi_dns="$(getent ahosts pypi.org 2>/dev/null | awk '{print $1}' | head -n 8 | tr '\n' ' ' || true)"
-_wheel_count="$(find "${APP_DIR}/wheels" -maxdepth 1 -name '*.whl' 2>/dev/null | wc -l | tr -d ' ')"
-_agent_log "pre-pip diagnostics" "A" "$(printf '%s' "{\"pypi_probe\":$(python3 -c 'import json,os; print(json.dumps(os.environ["P"]))' 2>/dev/null || echo '""')}")"
+_on_err() {
+  _agent_log "script failed" "B" "{\"line\":$1}"
+}
+trap '_on_err ${LINENO}' ERR
+export P="$(curl -sS -o /dev/null -w "http=%{http_code} time=%{time_total} ip=%{remote_ip}" --max-time 8 https://pypi.org/simple/pip/ 2>&1 || true)"
+export A="$(curl -sS -o /dev/null -w "http=%{http_code} time=%{time_total} ip=%{remote_ip}" --max-time 8 https://mirrors.aliyun.com/pypi/simple/pip/ 2>&1 || true)"
+export W="$(find "${APP_DIR}/wheels" -maxdepth 1 -name '*.whl' 2>/dev/null | wc -l | tr -d ' ')"
+export I="${PIP_INDEX_URL:-unset}"
+export V="${APP_DIR}/.venv"
+_agent_log "pre-pip diagnostics" "B" "$(python3 -c 'import json,os; print(json.dumps({"pypi":os.environ.get("P"),"aliyun":os.environ.get("A"),"wheels":os.environ.get("W"),"pip_index_url":os.environ.get("I"),"venv":os.environ.get("V")}))')"
 # #endregion
 
 export PIP_DISABLE_PIP_VERSION_CHECK=1
+export PIP_INDEX_URL="${PIP_INDEX_URL:-https://mirrors.aliyun.com/pypi/simple/}"
+export PIP_TRUSTED_HOST="${PIP_TRUSTED_HOST:-mirrors.aliyun.com}"
 VENV_PIP="${APP_DIR}/.venv/bin/pip"
 WHEELS_DIR="${APP_DIR}/wheels"
+
+# #region agent log
+_agent_log "pip install start" "B" "$(python3 -c 'import json,os; print(json.dumps({"pip_index_url":os.environ.get("PIP_INDEX_URL"),"trusted_host":os.environ.get("PIP_TRUSTED_HOST")}))')"
+# #endregion
+"${APP_DIR}/.venv/bin/pip" install --upgrade pip
+"${APP_DIR}/.venv/bin/pip" install -r "${APP_DIR}/requirements.txt"
+export D="$("${APP_DIR}/.venv/bin/python" -c "import django; print(django.get_version())" 2>&1 || true)"
+# #region agent log
+_agent_log "pip install done" "B" "$(python3 -c 'import json,os; print(json.dumps({"django":os.environ.get("D"),"pip_index_url":os.environ.get("PIP_INDEX_URL")}))')"
+# #endregion
 
 if grep -q 'DJANGO_SECRET_KEY=change-me' "${APP_DIR}/.env" 2>/dev/null; then
   KEY="$("${APP_DIR}/.venv/bin/python" -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")"
   sed -i "s/DJANGO_SECRET_KEY=change-me/DJANGO_SECRET_KEY=${KEY}/" "${APP_DIR}/.env"
 fi
+
+# #region agent log
+_agent_log "about to migrate" "B" "$(python3 -c 'import json,os; print(json.dumps({"django":os.environ.get("D","")}))')"
+# #endregion
 
 "${APP_DIR}/.venv/bin/python" "${APP_DIR}/manage.py" migrate --noinput
 "${APP_DIR}/.venv/bin/python" "${APP_DIR}/manage.py" compilemessages || true
