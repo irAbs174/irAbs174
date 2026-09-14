@@ -98,3 +98,102 @@ msgstr "چیزی از کار افتاد."
 
 msgid "An unexpected error happened on the server. Try again in a moment."
 msgstr "خطای غیرمنتظره‌ای در سرور رخ داد. کمی بعد دوباره تلاش کنید."
+
+msgid "View all projects"
+msgstr "همه پروژه‌ها"
+
+msgid "View case study"
+msgstr "مطالعه موردی"
+
+msgid "Filter by category"
+msgstr "فیلتر بر اساس دسته"
+
+msgid "All"
+msgstr "همه"
+
+msgid "No published projects in this view yet."
+msgstr "هنوز پروژه‌ای در این نما منتشر نشده است."
+
+msgid "Systems I've built. Products I've shipped. Problems I've solved."
+msgstr "سیستم‌هایی که ساخته‌ام. محصولاتی که منتشر کرده‌ام. مسائلی که حل کرده‌ام."
+
+msgid "Product"
+msgstr "محصول"
+
+msgid "Platform"
+msgstr "پلتفرم"
+
+msgid "Open Source"
+msgstr "متن‌باز"
+
+msgid "Infrastructure"
+msgstr "زیرساخت"
+
+msgid "Other"
+msgstr "سایر"
+
+msgid "In progress"
+msgstr "در حال انجام"
+
+msgid "Shipped"
+msgstr "منتشرشده"
+
+msgid "Maintained"
+msgstr "در حال نگهداری"
+
+msgid "Archived"
+msgstr "بایگانی"
+
+msgid "Language"
+msgstr "زبان"
+
+msgid "Database"
+msgstr "پایگاه داده"
+
+msgid "Timeline"
+msgstr "بازه زمانی"
+
+msgid "Present"
+msgstr "اکنون"
+
+msgid "Client"
+msgstr "کارفرما"
+
+msgid "The story"
+msgstr "روایت پروژه"
+
+msgid "Gallery"
+msgstr "گالری"
+
+msgid "My role"
+msgstr "نقش من"
+
+msgid "Technology stack"
+msgstr "پشته فناوری"
+
+msgid "Links"
+msgstr "پیوندها"
+
+msgid "Related projects"
+msgstr "پروژه‌های مرتبط"
+
+msgid "Previous image"
+msgstr "تصویر قبلی"
+
+msgid "Next image"
+msgstr "تصویر بعدی"
+
+msgid "Project images"
+msgstr "تصاویر پروژه"
+
+msgid "carousel"
+msgstr "کاروسل"
+
+msgid "Gallery thumbnails"
+msgstr "بندانگشتی‌های گالری"
+
+msgid "Fullscreen image"
+msgstr "تصویر تمام‌صفحه"
+
+msgid "Close"
+msgstr "بستن"

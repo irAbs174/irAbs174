@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError, transaction
@@ -39,6 +41,7 @@ class HomeViewTests(TestCase):
         self.assertIn("xml", response["Content-Type"])
         self.assertContains(response, "damerchi.ir")
         self.assertContains(response, "<loc>")
+        self.assertContains(response, "/projects/")
 
     def test_language_switch_sets_cookie(self):
         response = self.client.post(
@@ -149,3 +152,127 @@ class ProjectAdminTests(TestCase):
         self.assertContains(response, "Project links")
         self.assertContains(response, "Django")
         self.assertContains(response, 'name="technologies"')
+
+
+TINY_PNG = (
+    b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
+    b"\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01"
+    b"\x00\x00\x05\x00\x01\r\n-\xb4\x00\x00\x00\x00IEND\xaeB`\x82"
+)
+
+
+class ProjectCatalogViewTests(TestCase):
+    def setUp(self):
+        SiteProfile.load()
+        django = Technology.objects.create(name="Django", category="backend")
+        self.platform = Project.objects.create(
+            title_en="Otoino",
+            short_description_en="Automotive services platform",
+            description_en="Full case study copy",
+            category="platform",
+            status="shipped",
+        )
+        self.platform.technologies.add(django)
+        ProjectMedia.objects.create(
+            project=self.platform,
+            image=SimpleUploadedFile("cover.png", TINY_PNG, content_type="image/png"),
+            alt_text="Otoino cover",
+            is_cover=True,
+        )
+        self.notes = Project.objects.create(
+            title_en="System Notes",
+            description_en="Engineering notes",
+            category="content",
+            status="in_progress",
+        )
+        Project.objects.create(
+            title_en="Hidden Draft",
+            description_en="Not ready",
+            category="product",
+            is_published=False,
+        )
+
+    def test_catalog_lists_published_projects(self):
+        response = self.client.get(reverse("project_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Otoino")
+        self.assertContains(response, "Automotive services platform")
+        self.assertContains(response, "Django")
+        self.assertContains(response, "Otoino cover")
+        self.assertContains(response, reverse("project_detail", kwargs={"slug": self.platform.slug}))
+        self.assertContains(response, "System Notes")
+        self.assertNotContains(response, "Hidden Draft")
+        self.assertContains(response, 'id="projGrid"')
+        self.assertContains(response, "?category=platform")
+        self.assertContains(response, "?category=content")
+
+    def test_category_filter_is_server_side(self):
+        response = self.client.get(reverse("project_list"), {"category": "platform"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Otoino")
+        self.assertNotContains(response, "System Notes")
+
+    def test_unknown_category_shows_all_published(self):
+        response = self.client.get(reverse("project_list"), {"category": "not-a-category"})
+        self.assertContains(response, "Otoino")
+        self.assertContains(response, "System Notes")
+
+    def test_home_links_to_catalog(self):
+        response = self.client.get(reverse("home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse("project_list"))
+        self.assertContains(response, 'id="projGrid"')
+
+    def test_unpublished_detail_is_404(self):
+        response = self.client.get("/projects/hidden-draft/")
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_renders_case_study_sections(self):
+        self.platform.role_en = "Backend Engineer\nSystem Architect"
+        self.platform.client = "Otoino"
+        self.platform.started_at = date(2024, 1, 1)
+        self.platform.save()
+        ProjectLink.objects.create(
+            project=self.platform,
+            title="Live Website",
+            url="https://otoino.example",
+            type="live",
+        )
+        ProjectMedia.objects.create(
+            project=self.platform,
+            image=SimpleUploadedFile("shot.png", TINY_PNG, content_type="image/png"),
+            caption="Dashboard",
+            alt_text="Otoino dashboard",
+            media_type="dashboard",
+            order=1,
+        )
+        sibling = Project.objects.create(
+            title_en="Fleet Ops",
+            description_en="Related platform",
+            category="platform",
+            status="shipped",
+        )
+        response = self.client.get(self.platform.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Otoino")
+        self.assertContains(response, "Automotive services platform")
+        self.assertContains(response, "Full case study copy")
+        self.assertContains(response, "Backend Engineer")
+        self.assertContains(response, "System Architect")
+        self.assertContains(response, "Django")
+        self.assertContains(response, "Live Website")
+        self.assertContains(response, "https://otoino.example")
+        self.assertContains(response, "Otoino dashboard")
+        self.assertContains(response, "Dashboard")
+        self.assertContains(response, "data-gallery")
+        self.assertContains(response, sibling.get_absolute_url())
+        self.assertNotContains(response, "Hidden Draft")
+
+    def test_detail_omits_empty_optional_sections(self):
+        response = self.client.get(self.notes.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "System Notes")
+        self.assertContains(response, "Engineering notes")
+        self.assertNotContains(response, 'id="case-role-title"')
+        self.assertNotContains(response, 'id="case-gallery-title"')
+        self.assertNotContains(response, 'id="case-links-title"')

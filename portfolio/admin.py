@@ -98,7 +98,7 @@ class ProjectAdmin(admin.ModelAdmin):
     inlines = [ProjectMediaInline, ProjectLinkInline]
     ordering = ("order", "pk")
     readonly_fields = ("created_at", "updated_at")
-    view_on_site = False
+    view_on_site = True
     fieldsets = (
         ("Identity", {"fields": ("title_en", "title_fa", "slug", "category", "status", "client")}),
         ("Copy", {"fields": (

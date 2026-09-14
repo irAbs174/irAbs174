@@ -1,0 +1,38 @@
+{% load i18n portfolio_extras %}
+<article class="proj-card reveal">
+    <a class="proj-card-link" href="{{ project.get_absolute_url }}">
+        <div class="proj-cover">
+            {% with cover=project.cover_url %}
+            {% if cover %}
+            <img class="proj-cover-image" src="{{ cover }}" alt="{{ project.cover_alt }}" width="640" height="360" loading="lazy">
+            {% endif %}
+            {% endwith %}
+            <div class="proj-cover-pattern"></div>
+        </div>
+        <div class="proj-body">
+            <div class="proj-meta">
+                {% if project.category %}
+                <span class="pill">{{ project.get_category_display }}</span>
+                {% endif %}
+                {% if project.status %}
+                <span class="proj-status">{{ project.get_status_display }}</span>
+                {% endif %}
+            </div>
+            <h2 class="proj-title">{% loc project 'title' %}</h2>
+            <p class="proj-desc">{{ project.catalog_summary }}</p>
+            <div class="proj-tags">
+                {% with techs=project.catalog_technologies %}
+                {% if techs %}
+                    {% for tech in techs %}<span class="pill">{{ tech.name }}</span>{% endfor %}
+                {% else %}
+                    {% for tag in project.tags %}<span class="pill">{{ tag }}</span>{% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+            <span class="proj-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                {% trans "View case study" %}
+            </span>
+        </div>
+    </a>
+</article>

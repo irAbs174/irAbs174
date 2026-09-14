@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="tech-groups reveal">
+    {% for label, techs in tech_groups %}
+    <div class="tech-group">
+        {% if label %}
+        <h3 class="tech-group-label">{{ label }}</h3>
+        {% endif %}
+        <div class="proj-tags">
+            {% for tech in techs %}
+            <span class="pill">{{ tech.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

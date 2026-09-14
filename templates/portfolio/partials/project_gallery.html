@@ -1,0 +1,56 @@
+{% load i18n %}
+<div class="gallery reveal" data-gallery>
+    <div class="gallery-frame">
+        {% if gallery|length > 1 %}
+        <button class="gallery-btn gallery-btn-prev" type="button" data-gallery-prev aria-label="{% trans 'Previous image' %}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        {% endif %}
+        <div class="gallery-stage" tabindex="0" aria-roledescription="{% trans 'carousel' %}" aria-label="{% trans 'Project images' %}">
+            {% for item in gallery %}
+            <figure class="gallery-slide{% if forloop.first %} is-active{% endif %}" id="gallery-slide-{{ forloop.counter0 }}" data-gallery-slide>
+                <a class="gallery-full" href="{{ item.image.url }}" data-gallery-open>
+                    <img
+                        src="{{ item.image.url }}"
+                        alt="{{ item.display_alt }}"
+                        width="960"
+                        height="600"
+                        {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}
+                    >
+                </a>
+                {% if item.caption %}
+                <figcaption>{{ item.caption }}</figcaption>
+                {% endif %}
+            </figure>
+            {% endfor %}
+        </div>
+        {% if gallery|length > 1 %}
+        <button class="gallery-btn gallery-btn-next" type="button" data-gallery-next aria-label="{% trans 'Next image' %}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        {% endif %}
+    </div>
+    {% if gallery|length > 1 %}
+    <div class="gallery-thumbs" role="tablist" aria-label="{% trans 'Gallery thumbnails' %}">
+        {% for item in gallery %}
+        <a
+            class="gallery-thumb{% if forloop.first %} is-active{% endif %}"
+            href="#gallery-slide-{{ forloop.counter0 }}"
+            data-gallery-thumb
+            aria-label="{{ item.display_alt }}"
+        >
+            <img src="{{ item.image.url }}" alt="" width="160" height="100" loading="lazy">
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <dialog class="gallery-lightbox" data-gallery-lightbox aria-label="{% trans 'Fullscreen image' %}">
+        <img alt="" width="1280" height="800">
+        <p class="gallery-lightbox-caption"></p>
+        <form method="dialog">
+            <button class="gallery-btn gallery-lightbox-close" type="submit" aria-label="{% trans 'Close' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+        </form>
+    </dialog>
+</div>

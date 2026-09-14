@@ -98,3 +98,102 @@ msgstr "Something broke."
 
 msgid "An unexpected error happened on the server. Try again in a moment."
 msgstr "An unexpected error happened on the server. Try again in a moment."
+
+msgid "View all projects"
+msgstr "View all projects"
+
+msgid "View case study"
+msgstr "View case study"
+
+msgid "Filter by category"
+msgstr "Filter by category"
+
+msgid "All"
+msgstr "All"
+
+msgid "No published projects in this view yet."
+msgstr "No published projects in this view yet."
+
+msgid "Systems I've built. Products I've shipped. Problems I've solved."
+msgstr "Systems I've built. Products I've shipped. Problems I've solved."
+
+msgid "Product"
+msgstr "Product"
+
+msgid "Platform"
+msgstr "Platform"
+
+msgid "Open Source"
+msgstr "Open Source"
+
+msgid "Infrastructure"
+msgstr "Infrastructure"
+
+msgid "Other"
+msgstr "Other"
+
+msgid "In progress"
+msgstr "In progress"
+
+msgid "Shipped"
+msgstr "Shipped"
+
+msgid "Maintained"
+msgstr "Maintained"
+
+msgid "Archived"
+msgstr "Archived"
+
+msgid "Language"
+msgstr "Language"
+
+msgid "Database"
+msgstr "Database"
+
+msgid "Timeline"
+msgstr "Timeline"
+
+msgid "Present"
+msgstr "Present"
+
+msgid "Client"
+msgstr "Client"
+
+msgid "The story"
+msgstr "The story"
+
+msgid "Gallery"
+msgstr "Gallery"
+
+msgid "My role"
+msgstr "My role"
+
+msgid "Technology stack"
+msgstr "Technology stack"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "Related projects"
+msgstr "Related projects"
+
+msgid "Previous image"
+msgstr "Previous image"
+
+msgid "Next image"
+msgstr "Next image"
+
+msgid "Project images"
+msgstr "Project images"
+
+msgid "carousel"
+msgstr "carousel"
+
+msgid "Gallery thumbnails"
+msgstr "Gallery thumbnails"
+
+msgid "Fullscreen image"
+msgstr "Fullscreen image"
+
+msgid "Close"
+msgstr "Close"
