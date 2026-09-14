@@ -117,9 +117,10 @@ function initGalleries() {
         function openLightbox() {
             if (!lightbox || !lightImg) return;
             const slide = slides[index];
+            const link = slide.querySelector('[data-gallery-open]');
             const img = slide.querySelector('img');
             const caption = slide.querySelector('figcaption');
-            lightImg.src = img?.currentSrc || img?.src || '';
+            lightImg.src = link?.href || img?.currentSrc || img?.src || '';
             lightImg.alt = img?.alt || '';
             if (lightCaption) lightCaption.textContent = caption ? caption.textContent : '';
             if (typeof lightbox.showModal === 'function') lightbox.showModal();

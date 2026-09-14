@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.sitemaps.views import sitemap as django_sitemap
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render
@@ -6,6 +5,7 @@ from django.views.decorators.http import require_GET
 from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import AboutFocus, CareerEntry, Project, SiteProfile, SocialChannel, TechItem
+from .seo import catalog_seo, default_seo, project_seo, public_url
 from .sitemaps import HomeSitemap, ProjectSitemap
 
 
@@ -33,8 +33,7 @@ def _agent_log(location, message, data, hypothesis_id):
 
 @require_GET
 def robots_txt(request):
-    protocol = "http" if settings.DEBUG else "https"
-    sitemap_url = f"{protocol}://{settings.SITE_DOMAIN}/sitemap.xml"
+    sitemap_url = public_url("/sitemap.xml")
     body = "\n".join(
         [
             "User-agent: *",
@@ -76,7 +75,11 @@ class ProfileContextMixin:
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx.setdefault("profile", SiteProfile.load())
+        ctx["seo"] = self.build_seo(ctx)
         return ctx
+
+    def build_seo(self, ctx):
+        return default_seo(ctx["profile"], self.request.path)
 
 
 class HomeView(ProfileContextMixin, TemplateView):
@@ -138,6 +141,9 @@ class ProjectListView(ProfileContextMixin, ListView):
         ctx["show_category_filters"] = len(ctx["category_filters"]) > 1
         return ctx
 
+    def build_seo(self, ctx):
+        return catalog_seo(ctx["profile"], self.request.path)
+
 
 class ProjectDetailView(ProfileContextMixin, DetailView):
     template_name = "portfolio/project_detail.html"
@@ -160,6 +166,10 @@ class ProjectDetailView(ProfileContextMixin, DetailView):
         ctx["tech_groups"] = project.technologies_grouped()
         ctx["related_projects"] = project.related_projects()
         return ctx
+
+    def build_seo(self, ctx):
+        project = ctx["project"]
+        return project_seo(ctx["profile"], project, project.get_absolute_url())
 
 
 def error_400(request, exception=None):

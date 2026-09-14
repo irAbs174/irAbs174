@@ -222,6 +222,8 @@ class ProjectCatalogViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, reverse("project_list"))
         self.assertContains(response, 'id="projGrid"')
+        self.assertContains(response, reverse("project_detail", kwargs={"slug": self.platform.slug}))
+        self.assertContains(response, 'class="proj-card-link" href="%s" target="_blank"' % self.platform.get_absolute_url())
 
     def test_unpublished_detail_is_404(self):
         response = self.client.get("/projects/hidden-draft/")
@@ -276,3 +278,75 @@ class ProjectCatalogViewTests(TestCase):
         self.assertNotContains(response, 'id="case-role-title"')
         self.assertNotContains(response, 'id="case-gallery-title"')
         self.assertNotContains(response, 'id="case-links-title"')
+
+    def test_catalog_urls(self):
+        self.assertEqual(reverse("project_list"), "/projects/")
+        self.assertEqual(
+            reverse("project_detail", kwargs={"slug": self.platform.slug}),
+            "/projects/otoino/",
+        )
+        self.assertEqual(self.platform.get_absolute_url(), "/projects/otoino/")
+
+    def test_detail_has_unique_seo_metadata(self):
+        response = self.client.get(self.platform.get_absolute_url())
+        self.assertContains(response, "Otoino — Automotive services platform | Abbas Damerchi")
+        self.assertContains(response, 'rel="canonical"')
+        self.assertContains(response, "damerchi.ir/projects/otoino/")
+        self.assertContains(response, 'property="og:title"')
+        self.assertContains(response, 'property="og:description"')
+        self.assertContains(response, "Automotive services platform")
+        self.assertContains(response, 'property="og:image"')
+        self.assertContains(response, self.platform.cover_url)
+        self.assertContains(response, 'name="twitter:card" content="summary_large_image"')
+        self.assertContains(response, 'name="twitter:title"')
+        self.assertContains(response, 'property="og:type" content="article"')
+
+    def test_catalog_reuses_site_seo_tags(self):
+        response = self.client.get(reverse("project_list"))
+        self.assertContains(response, "Abbas Damerchi")
+        self.assertContains(response, 'rel="canonical"')
+        self.assertContains(response, "damerchi.ir/projects/")
+        self.assertContains(response, 'property="og:type" content="website"')
+        self.assertContains(response, "twitter:card")
+
+    def test_gallery_does_not_use_full_image_for_thumbs(self):
+        ProjectMedia.objects.create(
+            project=self.platform,
+            image=SimpleUploadedFile("shot.png", TINY_PNG, content_type="image/png"),
+            caption="Dashboard",
+            alt_text="Otoino dashboard",
+            media_type="dashboard",
+            order=1,
+        )
+        response = self.client.get(self.platform.get_absolute_url())
+        self.assertContains(response, 'srcset="')
+        self.assertContains(response, "sizes=")
+        self.assertContains(response, 'loading="lazy"')
+        self.assertContains(response, 'width="')
+        self.assertContains(response, 'height="')
+
+
+class ImageVariantTests(TestCase):
+    def test_wide_image_builds_smaller_variants(self):
+        from io import BytesIO
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        from PIL import Image
+
+        from portfolio.images import variant_relpath, variant_url
+
+        buffer = BytesIO()
+        Image.new("RGB", (1600, 900), (12, 24, 48)).save(buffer, format="PNG")
+        with TemporaryDirectory() as tmp:
+            with override_settings(MEDIA_ROOT=tmp):
+                project = Project.objects.create(title_en="Wide", description_en="Shot")
+                media = ProjectMedia.objects.create(
+                    project=project,
+                    image=SimpleUploadedFile("hero.png", buffer.getvalue(), content_type="image/png"),
+                )
+                thumb = variant_url(media.image, "thumb")
+                self.assertIn("variants", thumb)
+                self.assertTrue(Path(tmp, variant_relpath(media.image.name, "thumb")).exists())
+                self.assertNotEqual(thumb, media.image.url)
+

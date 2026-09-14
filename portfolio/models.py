@@ -286,6 +286,9 @@ class Project(LocalizedMixin, models.Model):
         if not self.slug:
             self.slug = _unique_slug(Project, self, slugify(self.title_en) or "project")
         super().save(*args, **kwargs)
+        from .images import ensure_variants
+
+        ensure_variants(self.image)
 
     def get_absolute_url(self):
         return reverse("project_detail", kwargs={"slug": self.slug})
@@ -296,19 +299,39 @@ class Project(LocalizedMixin, models.Model):
             return cover
         return self.media.order_by("order", "pk").first()
 
-    def cover_url(self):
+    def cover_image(self):
         media = self.cover_media()
         if media and media.image:
-            return media.image.url
-        if self.image:
-            return self.image.url
-        return ""
+            return media.image
+        return self.image or None
+
+    @property
+    def cover_url(self):
+        field = self.cover_image()
+        return field.url if field else ""
 
     def cover_alt(self):
         media = self.cover_media()
         if media and media.alt_text:
             return media.alt_text
         return self.loc("title")
+
+    def seo_title(self, brand_name):
+        title = self.loc("title")
+        summary = (self.loc("short_description") or "").strip()
+        if " |" in summary:
+            summary = summary.split(" |", 1)[0].strip()
+        if len(summary) > 80:
+            summary = summary[:77].rstrip() + "…"
+        if summary:
+            return f"{title} — {summary} | {brand_name}"
+        return f"{title} | {brand_name}"
+
+    def seo_description(self):
+        text = (self.catalog_summary() or "").strip()
+        if len(text) > 220:
+            return text[:217].rstrip() + "…"
+        return text
 
     def catalog_summary(self):
         return self.loc("short_description") or self.loc("description")
@@ -416,6 +439,12 @@ class ProjectMedia(models.Model):
     def __str__(self):
         label = self.caption or self.alt_text or self.image.name
         return f"{self.project.title_en} · {label}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        from .images import ensure_variants
+
+        ensure_variants(self.image)
 
     def display_alt(self):
         return self.alt_text or self.caption or self.project.loc("title")

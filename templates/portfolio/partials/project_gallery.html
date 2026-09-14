@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n portfolio_extras %}
 <div class="gallery reveal" data-gallery>
     <div class="gallery-frame">
         {% if gallery|length > 1 %}
@@ -11,11 +11,14 @@
             <figure class="gallery-slide{% if forloop.first %} is-active{% endif %}" id="gallery-slide-{{ forloop.counter0 }}" data-gallery-slide>
                 <a class="gallery-full" href="{{ item.image.url }}" data-gallery-open>
                     <img
-                        src="{{ item.image.url }}"
+                        src="{% image_variant item.image 'stage' %}"
+                        srcset="{% image_variant item.image 'card' %} 720w, {% image_variant item.image 'stage' %} 1400w"
+                        sizes="(max-width: 880px) 100vw, 1180px"
                         alt="{{ item.display_alt }}"
-                        width="960"
-                        height="600"
-                        {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}
+                        width="{{ item.image.width }}"
+                        height="{{ item.image.height }}"
+                        loading="lazy"
+                        decoding="async"
                     >
                 </a>
                 {% if item.caption %}
@@ -39,7 +42,14 @@
             data-gallery-thumb
             aria-label="{{ item.display_alt }}"
         >
-            <img src="{{ item.image.url }}" alt="" width="160" height="100" loading="lazy">
+            <img
+                src="{% image_variant item.image 'thumb' %}"
+                alt=""
+                width="{{ item.image.width }}"
+                height="{{ item.image.height }}"
+                loading="lazy"
+                decoding="async"
+            >
         </a>
         {% endfor %}
     </div>

@@ -2,9 +2,19 @@
 <article class="proj-card reveal">
     <a class="proj-card-link" href="{{ project.get_absolute_url }}">
         <div class="proj-cover">
-            {% with cover=project.cover_url %}
+            {% with cover=project.cover_image %}
             {% if cover %}
-            <img class="proj-cover-image" src="{{ cover }}" alt="{{ project.cover_alt }}" width="640" height="360" loading="lazy">
+            <img
+                class="proj-cover-image"
+                src="{% image_variant cover 'card' %}"
+                srcset="{% image_variant cover 'thumb' %} 320w, {% image_variant cover 'card' %} 720w"
+                sizes="(max-width: 720px) 100vw, 380px"
+                alt="{{ project.cover_alt }}"
+                width="{{ cover.width }}"
+                height="{{ cover.height }}"
+                loading="lazy"
+                decoding="async"
+            >
             {% endif %}
             {% endwith %}
             <div class="proj-cover-pattern"></div>
