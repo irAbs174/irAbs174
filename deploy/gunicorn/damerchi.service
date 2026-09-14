@@ -7,7 +7,8 @@ User=www-data
 Group=www-data
 WorkingDirectory=/var/www/damerchi.ir
 EnvironmentFile=/var/www/damerchi.ir/.env
-ExecStart=/var/www/damerchi.ir/.venv/bin/gunicorn config.wsgi:application --bind 127.0.0.1:8001 --workers 2
+# 8001 is novin-hesab-backend (aria-tek.ir). Never bind damerchi there.
+ExecStart=/var/www/damerchi.ir/.venv/bin/gunicorn config.wsgi:application --bind 127.0.0.1:8002 --workers 2
 Restart=always
 RestartSec=3
 

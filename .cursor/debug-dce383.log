@@ -1,0 +1,4 @@
+{"sessionId": "dce383", "runId": "cdn-check", "hypothesisId": "C", "location": "curl:cdn", "message": "WCDN had cached 404 for robots/sitemap", "data": {"wcdn_status": "Hit", "robots_then": 404, "sitemap_then": 404}, "timestamp": 1789375021782}
+{"sessionId": "dce383", "runId": "cdn-check", "hypothesisId": "C", "location": "portfolio/views.py:robots_txt", "message": "robots served", "data": {"path": "/robots.txt", "status": 200}, "timestamp": 1789374978901}
+{"sessionId": "dce383", "runId": "cdn-check", "hypothesisId": "C", "location": "portfolio/views.py:sitemap_xml", "message": "sitemap served", "data": {"path": "/sitemap.xml", "status": 200}, "timestamp": 1789374978942}
+{"sessionId": "dce383", "runId": "cdn-check", "hypothesisId": "C", "location": "curl:public", "message": "public 200 after CDN refresh", "data": {"robots": 200, "sitemap": 200, "otoino": 200, "aria": 200}, "timestamp": 1789375021782}
