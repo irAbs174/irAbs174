@@ -7,3 +7,4 @@ data/
 media/
 staticfiles/
 damerchi-release.tar.gz
+wheels/

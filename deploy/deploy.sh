@@ -44,8 +44,52 @@ fi
 if [[ ! -d "${APP_DIR}/.venv" ]]; then
   python3 -m venv "${APP_DIR}/.venv"
 fi
-"${APP_DIR}/.venv/bin/pip" install --upgrade pip
-"${APP_DIR}/.venv/bin/pip" install -r "${APP_DIR}/requirements.txt"
+
+# #region agent log
+_agent_log() {
+  AGENT_DBG_MSG="$1" AGENT_DBG_HID="$2" AGENT_DBG_DATA="${3:-{}}" python3 - <<'PY' || true
+import json, os, time, urllib.request
+try:
+    data = json.loads(os.environ.get("AGENT_DBG_DATA") or "{}")
+except Exception:
+    data = {"raw": os.environ.get("AGENT_DBG_DATA")}
+payload = {
+    "sessionId": "6b9f74",
+    "hypothesisId": os.environ.get("AGENT_DBG_HID"),
+    "location": "deploy/deploy.sh:pip",
+    "message": os.environ.get("AGENT_DBG_MSG"),
+    "data": data,
+    "timestamp": int(time.time() * 1000),
+    "runId": os.environ.get("DEPLOY_SHA", "unknown"),
+}
+line = json.dumps(payload)
+print(line)
+try:
+    with open("/home/unique/Documents/projects/production/irAbs174/.cursor/debug-6b9f74.log", "a") as fh:
+        fh.write(line + "\n")
+except Exception:
+    pass
+req = urllib.request.Request(
+    "http://127.0.0.1:7651/ingest/e4b0b26a-9ef5-4ce1-9790-8c950143cea0",
+    data=line.encode(),
+    headers={"Content-Type": "application/json", "X-Debug-Session-Id": "6b9f74"},
+    method="POST",
+)
+try:
+    urllib.request.urlopen(req, timeout=1)
+except Exception:
+    pass
+PY
+}
+_pypi_probe="$(curl -sS -o /dev/null -w "http=%{http_code} time=%{time_total} ip=%{remote_ip}" --max-time 15 https://pypi.org/simple/pip/ 2>&1 || true)"
+_pypi_dns="$(getent ahosts pypi.org 2>/dev/null | awk '{print $1}' | head -n 8 | tr '\n' ' ' || true)"
+_wheel_count="$(find "${APP_DIR}/wheels" -maxdepth 1 -name '*.whl' 2>/dev/null | wc -l | tr -d ' ')"
+_agent_log "pre-pip diagnostics" "A" "$(printf '%s' "{\"pypi_probe\":$(python3 -c 'import json,os; print(json.dumps(os.environ["P"]))' 2>/dev/null || echo '""')}")"
+# #endregion
+
+export PIP_DISABLE_PIP_VERSION_CHECK=1
+VENV_PIP="${APP_DIR}/.venv/bin/pip"
+WHEELS_DIR="${APP_DIR}/wheels"
 
 if grep -q 'DJANGO_SECRET_KEY=change-me' "${APP_DIR}/.env" 2>/dev/null; then
   KEY="$("${APP_DIR}/.venv/bin/python" -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")"
