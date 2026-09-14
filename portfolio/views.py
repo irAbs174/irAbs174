@@ -150,7 +150,12 @@ class ProjectDetailView(ProfileContextMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         project = ctx["project"]
-        ctx["gallery"] = list(project.media.all())
+        media = list(project.media.all())
+        cover = project.cover_media()
+        if cover and len(media) > 1:
+            ctx["gallery"] = [item for item in media if item.pk != cover.pk]
+        else:
+            ctx["gallery"] = []
         ctx["primary_link"] = project.primary_link()
         ctx["tech_groups"] = project.technologies_grouped()
         ctx["related_projects"] = project.related_projects()

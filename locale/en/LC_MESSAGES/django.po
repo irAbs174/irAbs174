@@ -105,6 +105,15 @@ msgstr "View all projects"
 msgid "View case study"
 msgstr "View case study"
 
+msgid "Selected work"
+msgstr "Selected work"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Status"
+msgstr "Status"
+
 msgid "Filter by category"
 msgstr "Filter by category"
 

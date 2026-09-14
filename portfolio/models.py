@@ -314,7 +314,7 @@ class Project(LocalizedMixin, models.Model):
         return self.loc("short_description") or self.loc("description")
 
     def catalog_technologies(self):
-        return list(self.technologies.all())[:6]
+        return list(self.technologies.all())[:4]
 
     def role_lines(self):
         text = self.loc("role")
