@@ -1,0 +1,7 @@
+{% extends "errors/base.html" %}
+{% load i18n %}
+
+{% block error_title %}{% trans "Server error" %}{% endblock %}
+{% block error_code %}500{% endblock %}
+{% block error_heading %}{% trans "Something broke." %}{% endblock %}
+{% block error_copy %}{% trans "An unexpected error happened on the server. Try again in a moment." %}{% endblock %}

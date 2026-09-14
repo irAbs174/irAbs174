@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+msgid ""
+msgstr ""
+"Project-Id-Version: irAbs174\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-14 00:00+0000\n"
+"PO-Revision-Date: 2026-09-14 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Persian\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "About"
+msgstr "درباره"
+
+msgid "Stack"
+msgstr "ابزارها"
+
+msgid "Career"
+msgstr "مسیر"
+
+msgid "Projects"
+msgstr "پروژه‌ها"
+
+msgid "Content"
+msgstr "محتوا"
+
+msgid "Contact"
+msgstr "تماس"
+
+msgid "Switch language"
+msgstr "تغییر زبان"
+
+msgid "Toggle theme"
+msgstr "تغییر پوسته"
+
+msgid "Open menu"
+msgstr "باز کردن منو"
+
+msgid "Backend"
+msgstr "بک‌اند"
+
+msgid "Frontend"
+msgstr "فرانت‌اند"
+
+msgid "DevOps"
+msgstr "دواپس"
+
+msgid "Data"
+msgstr "داده"
+
+msgid "Tools"
+msgstr "ابزار"
+
+msgid "Error"
+msgstr "خطا"
+
+msgid "Back to home"
+msgstr "بازگشت به خانه"
+
+msgid "Bad request"
+msgstr "درخواست نامعتبر"
+
+msgid "Bad request."
+msgstr "درخواست نامعتبر است."
+
+msgid "The request could not be understood. Check the address and try again."
+msgstr "این درخواست قابل فهم نبود. آدرس را بررسی کنید و دوباره تلاش کنید."
+
+msgid "Forbidden"
+msgstr "ممنوع"
+
+msgid "Access denied."
+msgstr "دسترسی مجاز نیست."
+
+msgid "You do not have permission to view this page."
+msgstr "اجازه دیدن این صفحه را ندارید."
+
+msgid "Page not found"
+msgstr "صفحه پیدا نشد"
+
+msgid "This page is missing."
+msgstr "این صفحه وجود ندارد."
+
+msgid "The link may be outdated, or the page was moved. Head back to the portfolio."
+msgstr "ممکن است پیوند قدیمی باشد یا صفحه جابه‌جا شده باشد. به نمونه‌کارها برگردید."
+
+msgid "Server error"
+msgstr "خطای سرور"
+
+msgid "Something broke."
+msgstr "چیزی از کار افتاد."
+
+msgid "An unexpected error happened on the server. Try again in a moment."
+msgstr "خطای غیرمنتظره‌ای در سرور رخ داد. کمی بعد دوباره تلاش کنید."

@@ -1,0 +1,47 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" data-theme="dark" dir="{% if LANGUAGE_CODE == 'fa' %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{% block error_title %}{% trans "Error" %}{% endblock %} | Abbas Damerchi</title>
+    <link rel="icon" type="image/webp" href="{% static 'img/header-logo.webp' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+    <div class="bg-decor" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <header class="nav">
+        <div class="container nav-inner">
+            <a href="/" class="brand" aria-label="{% trans 'Home' %}">
+                <img class="brand-mark" src="{% static 'img/header-logo.webp' %}" alt="">
+                <span class="brand-text">Abbas Damerchi</span>
+            </a>
+            <div class="nav-actions">
+                <button class="icon-btn" id="themeBtn" type="button" aria-label="{% trans 'Toggle theme' %}">
+                    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="error-page">
+        <div class="container">
+            <p class="error-code">{% block error_code %}{% endblock %}</p>
+            <h1 class="error-title">{% block error_heading %}{% endblock %}</h1>
+            <p class="error-sub">{% block error_copy %}{% endblock %}</p>
+            <a href="/" class="btn btn-primary">{% trans "Back to home" %}</a>
+        </div>
+    </main>
+    <script src="{% static 'js/site.js' %}"></script>
+</body>
+</html>

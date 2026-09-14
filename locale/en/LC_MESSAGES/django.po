@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+msgid ""
+msgstr ""
+"Project-Id-Version: irAbs174\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-14 00:00+0000\n"
+"PO-Revision-Date: 2026-09-14 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "About"
+msgstr "About"
+
+msgid "Stack"
+msgstr "Stack"
+
+msgid "Career"
+msgstr "Career"
+
+msgid "Projects"
+msgstr "Projects"
+
+msgid "Content"
+msgstr "Content"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Switch language"
+msgstr "Switch language"
+
+msgid "Toggle theme"
+msgstr "Toggle theme"
+
+msgid "Open menu"
+msgstr "Open menu"
+
+msgid "Backend"
+msgstr "Backend"
+
+msgid "Frontend"
+msgstr "Frontend"
+
+msgid "DevOps"
+msgstr "DevOps"
+
+msgid "Data"
+msgstr "Data"
+
+msgid "Tools"
+msgstr "Tools"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Back to home"
+msgstr "Back to home"
+
+msgid "Bad request"
+msgstr "Bad request"
+
+msgid "Bad request."
+msgstr "Bad request."
+
+msgid "The request could not be understood. Check the address and try again."
+msgstr "The request could not be understood. Check the address and try again."
+
+msgid "Forbidden"
+msgstr "Forbidden"
+
+msgid "Access denied."
+msgstr "Access denied."
+
+msgid "You do not have permission to view this page."
+msgstr "You do not have permission to view this page."
+
+msgid "Page not found"
+msgstr "Page not found"
+
+msgid "This page is missing."
+msgstr "This page is missing."
+
+msgid "The link may be outdated, or the page was moved. Head back to the portfolio."
+msgstr "The link may be outdated, or the page was moved. Head back to the portfolio."
+
+msgid "Server error"
+msgstr "Server error"
+
+msgid "Something broke."
+msgstr "Something broke."
+
+msgid "An unexpected error happened on the server. Try again in a moment."
+msgstr "An unexpected error happened on the server. Try again in a moment."

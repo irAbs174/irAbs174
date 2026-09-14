@@ -1,6 +1,4 @@
 # Abbas Damerchi
 
-### Distributed Systems
-I build **reliable, automated systems that turn complex workflows into simple products**.
-
-My work sits at the intersection of **backend architecture, automation, product UX, and technical content** from distributed systems and financial technology to automated commerce platforms and SEO-driven products.
+Distributed systems engineer working at the intersection of backend architecture, automation, FinTech, and product UX.
+I design reliable, Scalable systems and the interfaces people actually want to use.

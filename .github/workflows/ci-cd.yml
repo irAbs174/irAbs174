@@ -13,21 +13,30 @@ concurrency:
 
 jobs:
   check:
-    name: Validate static site
+    name: Validate Django app
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install gettext
+        run: sudo apt-get update && sudo apt-get install -y gettext
+
       - name: Required files present
         run: |
           set -euo pipefail
-          test -f index.html
-          test -f docs/index.html
+          test -f manage.py
+          test -f requirements.txt
           test -f deploy/deploy.sh
           test -f deploy/nginx/damerchi.ir.conf
+          test -f deploy/gunicorn/damerchi.service
           grep -q 'damerchi.ir' deploy/nginx/damerchi.ir.conf
-          # Socials source must stay in sync with homepage links
+          grep -q 'proxy_pass' deploy/nginx/damerchi.ir.conf
           for url in \
             'YouTube.com/@Unique_Sources' \
             'facebook.com/abbasDamerchilo' \
@@ -46,8 +55,19 @@ jobs:
             't.me/unique174' \
             'web.bale.ai/@unique174'
           do
-            grep -Fq "$url" index.html || { echo "Missing in index.html: $url"; exit 1; }
+            grep -Fq "$url" portfolio/management/commands/seed_portfolio.py || { echo "Missing in seed: $url"; exit 1; }
           done
+
+      - name: Install and test
+        env:
+          DJANGO_SECRET_KEY: ci-secret
+          DJANGO_DEBUG: "true"
+          DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,testserver
+        run: |
+          python -m pip install -r requirements.txt
+          python manage.py compilemessages
+          python manage.py check
+          python manage.py test
 
   deploy:
     name: Deploy damerchi.ir
@@ -67,7 +87,12 @@ jobs:
             --exclude='.github' \
             --exclude='.deploy' \
             --exclude='.cursor' \
+            --exclude='.venv' \
+            --exclude='data' \
+            --exclude='media' \
+            --exclude='staticfiles' \
             --exclude='*.pyc' \
+            --exclude='__pycache__' \
             .
           cp "$ARCHIVE" "${GITHUB_WORKSPACE}/damerchi-release.tar.gz"
           ls -lh damerchi-release.tar.gz
@@ -122,7 +147,6 @@ jobs:
               exit 1
             fi
 
-            # Extract deploy.sh from this release and run it (never other sites)
             TMP_EXTRACT="$(mktemp -d /tmp/damerchi-extract.XXXXXX)"
             tar -xzf "${RELEASE_ARCHIVE}" -C "${TMP_EXTRACT}"
             chmod +x "${TMP_EXTRACT}/deploy/deploy.sh"

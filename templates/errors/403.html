@@ -1,0 +1,7 @@
+{% extends "errors/base.html" %}
+{% load i18n %}
+
+{% block error_title %}{% trans "Forbidden" %}{% endblock %}
+{% block error_code %}403{% endblock %}
+{% block error_heading %}{% trans "Access denied." %}{% endblock %}
+{% block error_copy %}{% trans "You do not have permission to view this page." %}{% endblock %}
