@@ -774,6 +774,7 @@
         .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
         .proj-tags .pill { font-size: 0.72rem; padding: 4px 10px; }
         .proj-links { display: flex; gap: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+        .proj-card > .proj-links { padding: 0 22px 18px; }
         .proj-link {
             display: inline-flex; align-items: center; gap: 6px;
             font-size: 0.85rem;

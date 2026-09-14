@@ -1,9 +1,6 @@
 {% extends "portfolio/base.html" %}
 {% load i18n portfolio_extras %}
 
-{% block title %}{% loc project 'title' %} | {{ profile.brand_name }}{% endblock %}
-{% block meta_description %}{{ project.catalog_summary }}{% endblock %}
-
 {% block main %}
 <main id="top">
     <article class="case">
@@ -62,10 +59,20 @@
                     </div>
                     {% endif %}
                 </div>
-                {% with cover=project.cover_url %}
+                {% with cover=project.cover_image %}
                 {% if cover %}
                 <div class="case-cover reveal">
-                    <img src="{{ cover }}" alt="{{ project.cover_alt }}" width="1180" height="664" loading="eager">
+                    <img
+                        src="{% image_variant cover 'stage' %}"
+                        srcset="{% image_variant cover 'card' %} 720w, {% image_variant cover 'stage' %} 1400w"
+                        sizes="(max-width: 880px) 100vw, 1180px"
+                        alt="{{ project.cover_alt }}"
+                        width="{{ cover.width }}"
+                        height="{{ cover.height }}"
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async"
+                    >
                 </div>
                 {% endif %}
                 {% endwith %}

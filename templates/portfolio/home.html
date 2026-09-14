@@ -109,27 +109,33 @@
                 <div class="proj-grid" id="projGrid">
                     {% for project in projects %}
                     <article class="proj-card reveal">
-                        <div class="proj-cover">
-                            {% if project.image %}
-                            <img class="proj-cover-image" src="{{ project.image.url }}" alt="{% loc project 'title' %}" loading="lazy">
-                            {% endif %}
-                            <div class="proj-cover-pattern"></div>
-                        </div>
-                        <div class="proj-body">
-                            <div class="proj-title">{% loc project 'title' %}</div>
-                            <p class="proj-desc">{% loc project 'description' %}</p>
-                            <div class="proj-tags">
-                                {% for tag in project.tags %}<span class="pill">{{ tag }}</span>{% endfor %}
+                        <a class="proj-card-link" href="{{ project.get_absolute_url }}" target="_blank" rel="noopener noreferrer">
+                            <div class="proj-cover">
+                                {% with cover=project.cover_image %}
+                                {% if cover %}
+                                <img class="proj-cover-image" src="{% image_variant cover 'card' %}" alt="{% loc project 'title' %}" width="{{ cover.width }}" height="{{ cover.height }}" loading="lazy" decoding="async">
+                                {% endif %}
+                                {% endwith %}
+                                <div class="proj-cover-pattern"></div>
                             </div>
-                            <div class="proj-links">
-                                {% for link in project.links.all %}
-                                <a class="proj-link" href="{{ link.href }}" target="_blank" rel="noopener noreferrer">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-                                    {{ link.label }}
-                                </a>
-                                {% endfor %}
+                            <div class="proj-body">
+                                <div class="proj-title">{% loc project 'title' %}</div>
+                                <p class="proj-desc">{% loc project 'description' %}</p>
+                                <div class="proj-tags">
+                                    {% for tag in project.tags %}<span class="pill">{{ tag }}</span>{% endfor %}
+                                </div>
                             </div>
+                        </a>
+                        {% if project.links.all %}
+                        <div class="proj-links">
+                            {% for link in project.links.all %}
+                            <a class="proj-link" href="{{ link.href }}" target="_blank" rel="noopener noreferrer">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                                {{ link.label }}
+                            </a>
+                            {% endfor %}
                         </div>
+                        {% endif %}
                     </article>
                     {% endfor %}
                 </div>

@@ -6,8 +6,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block meta_description %}{% loc profile 'meta_description' %}{% endblock %}">
-    <title>{% block title %}{{ profile.page_title }}{% endblock %}</title>
+    <title>{{ seo.title }}</title>
+    {% if seo.description %}
+    <meta name="description" content="{{ seo.description }}">
+    {% endif %}
+    <link rel="canonical" href="{{ seo.canonical }}">
+    <meta property="og:site_name" content="{{ profile.brand_name }}">
+    <meta property="og:type" content="{{ seo.og_type }}">
+    <meta property="og:title" content="{{ seo.title }}">
+    {% if seo.description %}
+    <meta property="og:description" content="{{ seo.description }}">
+    {% endif %}
+    <meta property="og:url" content="{{ seo.canonical }}">
+    {% if seo.image %}
+    <meta property="og:image" content="{{ seo.image }}">
+    {% endif %}
+    <meta property="og:locale" content="{% if LANGUAGE_CODE == 'fa' %}fa_IR{% else %}en_US{% endif %}">
+    <meta name="twitter:card" content="{% if seo.image %}summary_large_image{% else %}summary{% endif %}">
+    <meta name="twitter:title" content="{{ seo.title }}">
+    {% if seo.description %}
+    <meta name="twitter:description" content="{{ seo.description }}">
+    {% endif %}
+    {% if seo.image %}
+    <meta name="twitter:image" content="{{ seo.image }}">
+    {% endif %}
     <link rel="icon" type="image/webp" href="{% if profile.brand_logo %}{{ profile.brand_logo.url }}{% else %}{% static 'img/header-logo.webp' %}{% endif %}">
     <link rel="apple-touch-icon" href="{% if profile.brand_logo %}{{ profile.brand_logo.url }}{% else %}{% static 'img/header-logo.webp' %}{% endif %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
