@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', e => {
+            if (a.hasAttribute('data-gallery-thumb')) return;
             const id = a.getAttribute('href');
             if (id.length > 1 && document.querySelector(id)) {
                 e.preventDefault();
@@ -67,4 +68,87 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     applyTheme();
+    initGalleries();
 });
+
+function initGalleries() {
+    document.querySelectorAll('[data-gallery]').forEach(root => {
+        const stage = root.querySelector('.gallery-stage');
+        const slides = [...root.querySelectorAll('[data-gallery-slide]')];
+        const thumbs = [...root.querySelectorAll('[data-gallery-thumb]')];
+        const lightbox = root.querySelector('[data-gallery-lightbox]');
+        const lightImg = lightbox ? lightbox.querySelector('img') : null;
+        const lightCaption = lightbox ? lightbox.querySelector('.gallery-lightbox-caption') : null;
+        if (!stage || !slides.length) return;
+
+        root.classList.add('has-js');
+        let index = 0;
+
+        function goTo(next, smooth = true) {
+            index = ((next % slides.length) + slides.length) % slides.length;
+            const left = slides[index].offsetLeft;
+            stage.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+            thumbs.forEach((thumb, i) => thumb.classList.toggle('is-active', i === index));
+        }
+
+        function syncFromScroll() {
+            const x = stage.scrollLeft;
+            const width = stage.clientWidth || 1;
+            const next = Math.round(x / width);
+            if (next === index || next < 0 || next >= slides.length) return;
+            index = next;
+            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+            thumbs.forEach((thumb, i) => thumb.classList.toggle('is-active', i === index));
+        }
+
+        root.querySelector('[data-gallery-prev]')?.addEventListener('click', () => goTo(index - 1));
+        root.querySelector('[data-gallery-next]')?.addEventListener('click', () => goTo(index + 1));
+
+        thumbs.forEach((thumb, i) => {
+            thumb.addEventListener('click', e => {
+                e.preventDefault();
+                goTo(i);
+            });
+        });
+
+        stage.addEventListener('scroll', () => syncFromScroll(), { passive: true });
+
+        function openLightbox() {
+            if (!lightbox || !lightImg) return;
+            const slide = slides[index];
+            const img = slide.querySelector('img');
+            const caption = slide.querySelector('figcaption');
+            lightImg.src = img?.currentSrc || img?.src || '';
+            lightImg.alt = img?.alt || '';
+            if (lightCaption) lightCaption.textContent = caption ? caption.textContent : '';
+            if (typeof lightbox.showModal === 'function') lightbox.showModal();
+        }
+
+        root.querySelectorAll('[data-gallery-open]').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const slide = link.closest('[data-gallery-slide]');
+                const next = slides.indexOf(slide);
+                if (next >= 0) goTo(next, false);
+                openLightbox();
+            });
+        });
+
+        lightbox?.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index - 1); openLightbox(); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); openLightbox(); }
+        });
+
+        root.addEventListener('keydown', e => {
+            if (lightbox?.open) {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index - 1); openLightbox(); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); openLightbox(); }
+                return;
+            }
+            if (e.target !== stage && !root.contains(e.target)) return;
+            if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index - 1); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1); }
+        });
+    });
+}

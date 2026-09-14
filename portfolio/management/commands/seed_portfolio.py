@@ -12,6 +12,7 @@ from portfolio.models import (
     SiteProfile,
     SocialChannel,
     TechItem,
+    Technology,
 )
 
 IMG = Path(settings.BASE_DIR) / "static" / "img"
@@ -59,6 +60,7 @@ class Command(BaseCommand):
         if force:
             ProjectLink.objects.all().delete()
             Project.objects.all().delete()
+            Technology.objects.all().delete()
             AboutFocus.objects.all().delete()
             TechItem.objects.all().delete()
             CareerEntry.objects.all().delete()
@@ -221,27 +223,42 @@ class Command(BaseCommand):
             dict(
                 title_en="Distributed Transaction Pipeline",
                 title_fa="خط لوله تراکنش توزیع‌شده",
+                short_description_en="Fault-tolerant transaction processing for financial workflows.",
+                short_description_fa="پردازش تراکنش تحمل‌پذیر خطا برای جریان‌های مالی.",
                 description_en="A fault-tolerant transaction processing pipeline for financial workflows | designed for reliability, observability, and operational simplicity.",
                 description_fa="خط پردازش تراکنش تحمل‌پذیر خطا برای جریان‌های مالی | طراحی‌شده برای قابلیت اطمینان، مشاهده‌پذیری و سادگی عملیاتی.",
                 tags=["Python", "PostgreSQL", "Redis", "Queues"],
+                category="infrastructure",
+                status="maintained",
+                featured=True,
                 image="abbas-trip.jpg",
                 links=[("GitHub", "https://Github.com/irAbs174")],
             ),
             dict(
                 title_en="E-Commerce Automation Suite",
                 title_fa="مجموعه اتوماسیون تجارت الکترونیک",
+                short_description_en="Catalog sync, order orchestration, pricing, and reporting.",
+                short_description_fa="همگام‌سازی کاتالوگ، ارکستراسیون سفارش، قیمت‌گذاری و گزارش.",
                 description_en="End-to-end automation for online commerce: catalog sync, order orchestration, pricing, and reporting | replacing repetitive ops with reliable systems.",
                 description_fa="اتوماسیون سرتاسری تجارت آنلاین: همگام‌سازی کاتالوگ، ارکستراسیون سفارش، قیمت‌گذاری و گزارش | جایگزینی کارهای تکراری با سیستم‌های قابل اعتماد.",
                 tags=["Node.js", "APIs", "Workflows"],
+                category="product",
+                status="shipped",
+                featured=True,
                 image="abbas-luggage.jpg",
                 links=[("GitHub", "https://Github.com/irAbs174")],
             ),
             dict(
                 title_en="System Design Notes & Resources",
                 title_fa="یادداشت‌ها و منابع طراحی سیستم",
+                short_description_en="Practical notes on system design and backend engineering.",
+                short_description_fa="یادداشت‌های عملی درباره طراحی سیستم و مهندسی بک‌اند.",
                 description_en="A growing library of system design, distributed systems, and backend engineering notes | practical, opinionated, and built for engineers.",
                 description_fa="کتابخانه‌ای در حال رشد از یادداشت‌های طراحی سیستم، سیستم‌های توزیع‌شده و مهندسی بک‌اند | عملی، نظرمند و ساخته‌شده برای مهندسان.",
                 tags=["Markdown", "Education", "Open Source"],
+                category="content",
+                status="in_progress",
+                featured=True,
                 image="abbas-portrait.jpg",
                 links=[
                     ("GitHub", "https://Github.com/irAbs174"),
@@ -251,19 +268,35 @@ class Command(BaseCommand):
             dict(
                 title_en="SEO-Driven Product Framework",
                 title_fa="چارچوب محصول مبتنی بر سئو",
+                short_description_en="Building discoverable, content-driven web products.",
+                short_description_fa="ساخت محصولات وب قابل کشف و محتوا‌محور.",
                 description_en="A framework for building discoverable, content-driven web products | combining SEO, performance, and a clean developer experience.",
                 description_fa="چارچوبی برای ساخت محصولات وب قابل کشف و محتوا‌محور | ترکیبی از سئو، کارایی و تجربه توسعه‌دهنده تمیز.",
                 tags=["Next.js", "TypeScript", "SEO"],
+                category="platform",
+                status="shipped",
+                featured=True,
                 image="abbas-trip.jpg",
                 links=[("GitHub", "https://Github.com/irAbs174")],
             ),
         ]
+        tech_by_name = {}
         for i, row in enumerate(projects):
             links = row.pop("links")
             image_name = row.pop("image")
+            tag_names = row.get("tags") or []
             project = Project.objects.create(order=i, **row)
             attach(project.image, image_name)
             project.save()
+            techs = []
+            for name in tag_names:
+                tech = tech_by_name.get(name)
+                if tech is None:
+                    tech, _ = Technology.objects.get_or_create(name=name)
+                    tech_by_name[name] = tech
+                techs.append(tech)
+            if techs:
+                project.technologies.set(techs)
             ProjectLink.objects.bulk_create(
                 [
                     ProjectLink(project=project, title=label, url=href, type=_link_type(label), order=j)

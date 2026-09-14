@@ -3,10 +3,10 @@ from django.contrib.sitemaps.views import sitemap as django_sitemap
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
-from django.views.generic import TemplateView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import AboutFocus, CareerEntry, Project, SiteProfile, SocialChannel, TechItem
-from .sitemaps import HomeSitemap
+from .sitemaps import HomeSitemap, ProjectSitemap
 
 
 def _agent_log(location, message, data, hypothesis_id):
@@ -58,7 +58,10 @@ def robots_txt(request):
 
 @require_GET
 def sitemap_xml(request):
-    response = django_sitemap(request, sitemaps={"home": HomeSitemap})
+    response = django_sitemap(
+        request,
+        sitemaps={"home": HomeSitemap, "projects": ProjectSitemap},
+    )
     response["Cache-Control"] = "public, max-age=300, must-revalidate"
     _agent_log(
         "portfolio/views.py:sitemap_xml",
@@ -69,7 +72,14 @@ def sitemap_xml(request):
     return response
 
 
-class HomeView(TemplateView):
+class ProfileContextMixin:
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.setdefault("profile", SiteProfile.load())
+        return ctx
+
+
+class HomeView(ProfileContextMixin, TemplateView):
     template_name = "portfolio/home.html"
 
     def get(self, request, *args, **kwargs):
@@ -96,12 +106,54 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["profile"] = SiteProfile.load()
         ctx["about_focuses"] = AboutFocus.objects.published()
         ctx["tech_items"] = TechItem.objects.published()
         ctx["career_entries"] = CareerEntry.objects.published()
         ctx["projects"] = Project.objects.published().prefetch_related("links")
         ctx["socials"] = SocialChannel.objects.published()
+        return ctx
+
+
+class ProjectListView(ProfileContextMixin, ListView):
+    template_name = "portfolio/project_list.html"
+    context_object_name = "projects"
+
+    def get_queryset(self):
+        qs = Project.objects.catalog()
+        category = self.request.GET.get("category", "")
+        self.selected_category = category if category in dict(Project.CATEGORIES) else ""
+        if self.selected_category:
+            qs = qs.filter(category=self.selected_category)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        used = set(
+            Project.objects.published().exclude(category="").values_list("category", flat=True)
+        )
+        ctx["category_filters"] = [
+            (value, label) for value, label in Project.CATEGORIES if value in used
+        ]
+        ctx["selected_category"] = getattr(self, "selected_category", "")
+        ctx["show_category_filters"] = len(ctx["category_filters"]) > 1
+        return ctx
+
+
+class ProjectDetailView(ProfileContextMixin, DetailView):
+    template_name = "portfolio/project_detail.html"
+    context_object_name = "project"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        return Project.objects.published().prefetch_related("technologies", "media", "links")
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        project = ctx["project"]
+        ctx["gallery"] = list(project.media.all())
+        ctx["primary_link"] = project.primary_link()
+        ctx["tech_groups"] = project.technologies_grouped()
+        ctx["related_projects"] = project.related_projects()
         return ctx
 
 

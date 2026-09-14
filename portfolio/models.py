@@ -193,14 +193,14 @@ class CareerEntry(LocalizedMixin, models.Model):
 
 class Technology(models.Model):
     CATEGORIES = [
-        ("language", "Language"),
-        ("backend", "Backend"),
-        ("frontend", "Frontend"),
-        ("database", "Database"),
-        ("infrastructure", "Infrastructure"),
-        ("devops", "DevOps"),
-        ("data", "Data"),
-        ("tools", "Tools"),
+        ("language", _("Language")),
+        ("backend", _("Backend")),
+        ("frontend", _("Frontend")),
+        ("database", _("Database")),
+        ("infrastructure", _("Infrastructure")),
+        ("devops", _("DevOps")),
+        ("data", _("Data")),
+        ("tools", _("Tools")),
     ]
 
     name = models.CharField(max_length=80, unique=True)
@@ -229,21 +229,24 @@ class ProjectQuerySet(OrderedPublishedQuerySet):
     def featured(self):
         return self.filter(featured=True)
 
+    def catalog(self):
+        return self.published().prefetch_related("technologies", "media")
+
 
 class Project(LocalizedMixin, models.Model):
     CATEGORIES = [
-        ("product", "Product"),
-        ("platform", "Platform"),
-        ("open_source", "Open Source"),
-        ("infrastructure", "Infrastructure"),
-        ("content", "Content"),
-        ("other", "Other"),
+        ("product", _("Product")),
+        ("platform", _("Platform")),
+        ("open_source", _("Open Source")),
+        ("infrastructure", _("Infrastructure")),
+        ("content", _("Content")),
+        ("other", _("Other")),
     ]
     STATUSES = [
-        ("in_progress", "In progress"),
-        ("shipped", "Shipped"),
-        ("maintained", "Maintained"),
-        ("archived", "Archived"),
+        ("in_progress", _("In progress")),
+        ("shipped", _("Shipped")),
+        ("maintained", _("Maintained")),
+        ("archived", _("Archived")),
     ]
 
     title_en = models.CharField(max_length=160)
@@ -293,9 +296,90 @@ class Project(LocalizedMixin, models.Model):
             return cover
         return self.media.order_by("order", "pk").first()
 
+    def cover_url(self):
+        media = self.cover_media()
+        if media and media.image:
+            return media.image.url
+        if self.image:
+            return self.image.url
+        return ""
+
+    def cover_alt(self):
+        media = self.cover_media()
+        if media and media.alt_text:
+            return media.alt_text
+        return self.loc("title")
+
+    def catalog_summary(self):
+        return self.loc("short_description") or self.loc("description")
+
+    def catalog_technologies(self):
+        return list(self.technologies.all())[:6]
+
     def role_lines(self):
         text = self.loc("role")
         return [line.strip() for line in text.splitlines() if line.strip()]
+
+    def story_paragraphs(self):
+        text = self.loc("description")
+        if not text:
+            return []
+        paragraphs = []
+        for block in text.replace("\r\n", "\n").split("\n\n"):
+            for part in block.split(" | "):
+                part = part.strip(" |")
+                if part:
+                    paragraphs.append(part)
+        return paragraphs
+
+    def primary_link(self):
+        links = list(self.links.all())
+        for preferred in ("live", "demo", "github", "docs"):
+            for link in links:
+                if link.type == preferred:
+                    return link
+        return links[0] if links else None
+
+    def technologies_grouped(self):
+        grouped = {}
+        for tech in self.technologies.all():
+            grouped.setdefault(tech.category or "", []).append(tech)
+        labels = dict(Technology.CATEGORIES)
+        groups = []
+        for key, label in Technology.CATEGORIES:
+            if key in grouped:
+                groups.append((label, grouped.pop(key)))
+        if "" in grouped:
+            groups.append((_("Other"), grouped.pop("")))
+        for key, techs in grouped.items():
+            groups.append((labels.get(key, key), techs))
+        return groups
+
+    def related_projects(self, limit=3):
+        qs = (
+            Project.objects.published()
+            .exclude(pk=self.pk)
+            .prefetch_related("technologies", "media")
+        )
+        tech_ids = {tech.id for tech in self.technologies.all()}
+        same_category = []
+        shared_tech = []
+        featured = []
+        for item in qs:
+            item_techs = {tech.id for tech in item.technologies.all()}
+            if self.category and item.category == self.category:
+                same_category.append(item)
+            elif tech_ids and item_techs & tech_ids:
+                shared_tech.append(item)
+            elif item.featured:
+                featured.append(item)
+        picked = []
+        for group in (same_category, shared_tech, featured):
+            for item in group:
+                picked.append(item)
+                if len(picked) >= limit:
+                    return picked
+        return picked
 
 
 class ProjectMedia(models.Model):
@@ -332,6 +416,9 @@ class ProjectMedia(models.Model):
     def __str__(self):
         label = self.caption or self.alt_text or self.image.name
         return f"{self.project.title_en} · {label}"
+
+    def display_alt(self):
+        return self.alt_text or self.caption or self.project.loc("title")
 
 
 class ProjectLink(models.Model):
