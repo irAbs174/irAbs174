@@ -16,6 +16,23 @@ from portfolio.models import (
 
 IMG = Path(settings.BASE_DIR) / "static" / "img"
 
+_LINK_TYPES = {
+    "github": "github",
+    "live": "live",
+    "website": "live",
+    "docs": "docs",
+    "documentation": "docs",
+    "demo": "demo",
+    "youtube": "youtube",
+    "medium": "article",
+    "article": "article",
+    "repository": "repository",
+}
+
+
+def _link_type(label):
+    return _LINK_TYPES.get(label.strip().lower(), "other")
+
 
 def attach(field, filename):
     path = IMG / filename
@@ -248,7 +265,10 @@ class Command(BaseCommand):
             attach(project.image, image_name)
             project.save()
             ProjectLink.objects.bulk_create(
-                [ProjectLink(project=project, label=label, href=href, order=j) for j, (label, href) in enumerate(links)]
+                [
+                    ProjectLink(project=project, title=label, url=href, type=_link_type(label), order=j)
+                    for j, (label, href) in enumerate(links)
+                ]
             )
 
         socials = [

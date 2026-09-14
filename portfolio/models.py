@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.translation import get_language, gettext_lazy as _
 
 
@@ -189,17 +191,87 @@ class CareerEntry(LocalizedMixin, models.Model):
         return self.role_en
 
 
+class Technology(models.Model):
+    CATEGORIES = [
+        ("language", "Language"),
+        ("backend", "Backend"),
+        ("frontend", "Frontend"),
+        ("database", "Database"),
+        ("infrastructure", "Infrastructure"),
+        ("devops", "DevOps"),
+        ("data", "Data"),
+        ("tools", "Tools"),
+    ]
+
+    name = models.CharField(max_length=80, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    icon = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Emoji, CSS class, or icon URL",
+    )
+    category = models.CharField(max_length=20, choices=CATEGORIES, blank=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Technologies"
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = _unique_slug(Technology, self, slugify(self.name) or "technology")
+        super().save(*args, **kwargs)
+
+
+class ProjectQuerySet(OrderedPublishedQuerySet):
+    def featured(self):
+        return self.filter(featured=True)
+
+
 class Project(LocalizedMixin, models.Model):
+    CATEGORIES = [
+        ("product", "Product"),
+        ("platform", "Platform"),
+        ("open_source", "Open Source"),
+        ("infrastructure", "Infrastructure"),
+        ("content", "Content"),
+        ("other", "Other"),
+    ]
+    STATUSES = [
+        ("in_progress", "In progress"),
+        ("shipped", "Shipped"),
+        ("maintained", "Maintained"),
+        ("archived", "Archived"),
+    ]
+
     title_en = models.CharField(max_length=160)
     title_fa = models.CharField(max_length=160, blank=True)
+    slug = models.SlugField(max_length=180, unique=True, blank=True)
+    short_description_en = models.CharField(max_length=280, blank=True)
+    short_description_fa = models.CharField(max_length=280, blank=True)
     description_en = models.TextField()
     description_fa = models.TextField(blank=True)
+    role_en = models.TextField(blank=True, help_text="One role per line, e.g. Backend Engineer")
+    role_fa = models.TextField(blank=True)
+    client = models.CharField(max_length=160, blank=True)
+    category = models.CharField(max_length=32, choices=CATEGORIES, blank=True)
+    status = models.CharField(max_length=20, choices=STATUSES, default="shipped")
+    started_at = models.DateField(null=True, blank=True)
+    completed_at = models.DateField(null=True, blank=True)
+    featured = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0)
+    github_url = models.URLField(blank=True)
+    live_url = models.URLField(blank=True)
     image = models.ImageField(upload_to="projects/", blank=True)
     tags = models.JSONField(default=list, blank=True)
-    order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
+    technologies = models.ManyToManyField(Technology, related_name="projects", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    objects = OrderedPublishedQuerySet.as_manager()
+    objects = ProjectQuerySet.as_manager()
 
     class Meta:
         ordering = ["order", "pk"]
@@ -207,18 +279,108 @@ class Project(LocalizedMixin, models.Model):
     def __str__(self):
         return self.title_en
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = _unique_slug(Project, self, slugify(self.title_en) or "project")
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("project_detail", kwargs={"slug": self.slug})
+
+    def cover_media(self):
+        cover = self.media.filter(is_cover=True).first()
+        if cover:
+            return cover
+        return self.media.order_by("order", "pk").first()
+
+    def role_lines(self):
+        text = self.loc("role")
+        return [line.strip() for line in text.splitlines() if line.strip()]
+
+
+class ProjectMedia(models.Model):
+    MEDIA_TYPES = [
+        ("image", "Image"),
+        ("screenshot", "Screenshot"),
+        ("architecture", "Architecture"),
+        ("dashboard", "Dashboard"),
+        ("mobile", "Mobile"),
+        ("diagram", "Diagram"),
+        ("video", "Video"),
+    ]
+
+    project = models.ForeignKey(Project, related_name="media", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="projects/gallery/")
+    caption = models.CharField(max_length=240, blank=True)
+    alt_text = models.CharField(max_length=160, blank=True)
+    media_type = models.CharField(max_length=20, choices=MEDIA_TYPES, default="image")
+    is_cover = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["order", "pk"]
+        verbose_name_plural = "Project media"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project"],
+                condition=models.Q(is_cover=True),
+                name="unique_project_cover_media",
+            ),
+        ]
+
+    def __str__(self):
+        label = self.caption or self.alt_text or self.image.name
+        return f"{self.project.title_en} · {label}"
+
 
 class ProjectLink(models.Model):
+    LINK_TYPES = [
+        ("live", "Live Website"),
+        ("github", "GitHub"),
+        ("docs", "Documentation"),
+        ("demo", "Demo"),
+        ("youtube", "YouTube"),
+        ("article", "Article"),
+        ("repository", "Repository"),
+        ("other", "Other"),
+    ]
+
     project = models.ForeignKey(Project, related_name="links", on_delete=models.CASCADE)
-    label = models.CharField(max_length=80)
-    href = models.URLField()
+    title = models.CharField(max_length=80)
+    url = models.URLField()
+    type = models.CharField(max_length=32, choices=LINK_TYPES, default="other")
+    icon = models.CharField(max_length=300, blank=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ["order", "pk"]
 
     def __str__(self):
-        return f"{self.project.title_en} · {self.label}"
+        return f"{self.project.title_en} · {self.title}"
+
+    @property
+    def label(self):
+        return self.title
+
+    @property
+    def href(self):
+        return self.url
+
+
+def _unique_slug(model, instance, base):
+    slug = base
+    n = 2
+    qs = model.objects.filter(slug=slug)
+    if instance.pk:
+        qs = qs.exclude(pk=instance.pk)
+    while qs.exists():
+        slug = f"{base}-{n}"
+        n += 1
+        qs = model.objects.filter(slug=slug)
+        if instance.pk:
+            qs = qs.exclude(pk=instance.pk)
+    return slug
 
 
 class SocialChannel(LocalizedMixin, models.Model):

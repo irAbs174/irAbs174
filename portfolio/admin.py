@@ -5,9 +5,11 @@ from .models import (
     CareerEntry,
     Project,
     ProjectLink,
+    ProjectMedia,
     SiteProfile,
     SocialChannel,
     TechItem,
+    Technology,
 )
 
 
@@ -64,16 +66,74 @@ class CareerEntryAdmin(admin.ModelAdmin):
     list_editable = ("order", "is_published")
 
 
+class ProjectMediaInline(admin.TabularInline):
+    model = ProjectMedia
+    extra = 1
+    fields = ("image", "caption", "alt_text", "media_type", "is_cover", "order")
+
+
 class ProjectLinkInline(admin.TabularInline):
     model = ProjectLink
     extra = 1
+    fields = ("title", "url", "type", "icon", "order")
+
+
+@admin.register(Technology)
+class TechnologyAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug", "category")
+    list_filter = ("category",)
+    search_fields = ("name", "slug")
+    prepopulated_fields = {"slug": ("name",)}
+    ordering = ("name",)
 
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("title_en", "order", "is_published")
-    list_editable = ("order", "is_published")
-    inlines = [ProjectLinkInline]
+    list_display = ("title_en", "slug", "category", "status", "featured", "order", "is_published")
+    list_editable = ("order", "is_published", "featured")
+    list_filter = ("category", "status", "featured", "is_published")
+    search_fields = ("title_en", "title_fa", "slug", "client", "short_description_en")
+    prepopulated_fields = {"slug": ("title_en",)}
+    filter_horizontal = ("technologies",)
+    inlines = [ProjectMediaInline, ProjectLinkInline]
+    ordering = ("order", "pk")
+    readonly_fields = ("created_at", "updated_at")
+    view_on_site = False
+    fieldsets = (
+        ("Identity", {"fields": ("title_en", "title_fa", "slug", "category", "status", "client")}),
+        ("Copy", {"fields": (
+            "short_description_en", "short_description_fa",
+            "description_en", "description_fa",
+            "role_en", "role_fa",
+        )}),
+        ("Dates & visibility", {"fields": (
+            "started_at", "completed_at", "featured", "order", "is_published",
+        )}),
+        ("Links", {"fields": ("live_url", "github_url")}),
+        ("Homepage card", {"fields": ("image", "tags")}),
+        ("Technologies", {"fields": ("technologies",)}),
+        ("Timestamps", {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),
+    )
+
+
+@admin.register(ProjectMedia)
+class ProjectMediaAdmin(admin.ModelAdmin):
+    list_display = ("project", "media_type", "is_cover", "order", "caption")
+    list_filter = ("media_type", "is_cover")
+    list_editable = ("order",)
+    search_fields = ("caption", "alt_text", "project__title_en")
+    autocomplete_fields = ("project",)
+    ordering = ("project", "order", "pk")
+
+
+@admin.register(ProjectLink)
+class ProjectLinkAdmin(admin.ModelAdmin):
+    list_display = ("project", "title", "type", "url", "order")
+    list_filter = ("type",)
+    list_editable = ("order",)
+    search_fields = ("title", "url", "project__title_en")
+    autocomplete_fields = ("project",)
+    ordering = ("project", "order", "pk")
 
 
 @admin.register(SocialChannel)
