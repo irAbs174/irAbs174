@@ -11,6 +11,11 @@ VARIANT_WIDTHS = {
     "stage": 1400,
 }
 
+# GIF/ICO (and any multi-frame image) look destroyed if resized as a still JPEG.
+PASSTHROUGH_SUFFIXES = {".gif", ".svg", ".ico"}
+PASSTHROUGH_FORMATS = {"GIF", "SVG", "ICO"}
+RESIZE_FORMATS = {"JPEG", "JPG", "PNG", "WEBP"}
+
 
 def variant_relpath(field_name, key):
     path = Path(field_name)
@@ -18,9 +23,23 @@ def variant_relpath(field_name, key):
     return str(path.parent / "variants" / f"{path.stem}_{key}{suffix}")
 
 
+def _is_passthrough(field, image=None):
+    name = (getattr(field, "name", "") or "").lower()
+    if Path(name).suffix in PASSTHROUGH_SUFFIXES:
+        return True
+    if image is None:
+        return False
+    fmt = (image.format or "").upper()
+    if fmt in PASSTHROUGH_FORMATS:
+        return True
+    return getattr(image, "n_frames", 1) > 1
+
+
 def variant_url(field, key="card"):
     if not field:
         return ""
+    if _is_passthrough(field):
+        return field.url
     try:
         current_width = field.width
     except Exception:
@@ -38,6 +57,8 @@ def variant_url(field, key="card"):
 def ensure_variants(field):
     if not field or not getattr(field, "name", ""):
         return
+    if _is_passthrough(field):
+        return
     try:
         field.open("rb")
         source = field.read()
@@ -50,6 +71,9 @@ def ensure_variants(field):
             pass
     try:
         image = Image.open(BytesIO(source))
+        source_format = image.format
+        if _is_passthrough(field, image):
+            return
         image = ImageOps.exif_transpose(image)
     except Exception:
         return
@@ -59,18 +83,18 @@ def ensure_variants(field):
         rel = variant_relpath(field.name, key)
         if default_storage.exists(rel):
             continue
-        payload = _resized_bytes(image, max_width)
+        payload = _resized_bytes(image, max_width, source_format)
         if payload:
             default_storage.save(rel, ContentFile(payload))
 
 
-def _resized_bytes(image, max_width):
+def _resized_bytes(image, max_width, source_format=None):
     ratio = max_width / float(image.width)
     size = (max_width, max(1, int(image.height * ratio)))
     resized = image.resize(size, Image.Resampling.LANCZOS)
-    fmt = (image.format or "JPEG").upper()
-    if fmt not in {"JPEG", "JPG", "PNG", "WEBP"}:
-        fmt = "JPEG"
+    fmt = (source_format or image.format or "JPEG").upper()
+    if fmt not in RESIZE_FORMATS:
+        return None
     if fmt in {"JPEG", "JPG"} and resized.mode in {"RGBA", "P"}:
         resized = resized.convert("RGB")
         fmt = "JPEG"
