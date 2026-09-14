@@ -100,7 +100,7 @@ msgid "An unexpected error happened on the server. Try again in a moment."
 msgstr "خطای غیرمنتظره‌ای در سرور رخ داد. کمی بعد دوباره تلاش کنید."
 
 msgid "View all projects"
-msgstr "همه پروژه‌ها"
+msgstr "مشاهده همه پروژه‌ها"
 
 msgid "View case study"
 msgstr "مطالعه موردی"

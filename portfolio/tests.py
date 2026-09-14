@@ -350,3 +350,25 @@ class ImageVariantTests(TestCase):
                 self.assertTrue(Path(tmp, variant_relpath(media.image.name, "thumb")).exists())
                 self.assertNotEqual(thumb, media.image.url)
 
+    def test_gif_homepage_card_keeps_original(self):
+        from io import BytesIO
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        from PIL import Image
+
+        from portfolio.images import variant_relpath, variant_url
+
+        buffer = BytesIO()
+        Image.new("P", (1600, 900)).save(buffer, format="GIF")
+        with TemporaryDirectory() as tmp:
+            with override_settings(MEDIA_ROOT=tmp):
+                project = Project.objects.create(title_en="Gif Card", description_en="Shot")
+                project.image = SimpleUploadedFile(
+                    "card.gif", buffer.getvalue(), content_type="image/gif"
+                )
+                project.save()
+                card = variant_url(project.image, "card")
+                self.assertEqual(card, project.image.url)
+                self.assertFalse(Path(tmp, variant_relpath(project.image.name, "card")).exists())
+
