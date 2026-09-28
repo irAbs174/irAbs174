@@ -1,5 +1,5 @@
 # Hi I'm Abbas;
-## A technologist 🕵🏻
+## A Technologist 🕵🏻
 
 Distributed systems engineer
 Working at the intersection of backend architecture, automation, FinTech & product UX.
