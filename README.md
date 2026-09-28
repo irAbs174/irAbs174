@@ -1,6 +1,8 @@
-# Abbas Damerchi
- # Hi. I'm Abbas;
-## a technologist
+# Hi I'm Abbas;
+## A technologist 🕵🏻
 
-Distributed systems engineer working at the intersection of backend architecture, automation, FinTech and product UX.
-I design reliable, Scalable systems and the interfaces people actually want to use.
+Distributed systems engineer
+Working at the intersection of backend architecture, automation, FinTech & product UX.
+
+I design RELIABLE & SCALABLE systems; 
+The interfaces people actually want to use.
